@@ -35,3 +35,8 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Secret property ###
+/src/main/resources/application.properties
+.gitsecret/keys/random_seed
+!*.secret
