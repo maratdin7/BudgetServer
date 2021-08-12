@@ -2,10 +2,7 @@ package org.budget.budgetserver.request
 
 import org.budget.budgetserver.event.OnRegistrationCompleteEvent
 import org.budget.budgetserver.event.OnResetPasswordEvent
-import org.budget.budgetserver.exception.PasswordAuthenticationException
-import org.budget.budgetserver.exception.UserAlreadyActivatedException
-import org.budget.budgetserver.exception.UsernameAlreadyExistException
-import org.budget.budgetserver.exception.UsernameNotFoundException
+import org.budget.budgetserver.exception.*
 import org.budget.budgetserver.jpa.*
 import org.budget.budgetserver.jwt.CustomUserDetails
 import org.budget.budgetserver.service.token.JwtTokenService
@@ -16,6 +13,7 @@ import org.budget.budgetserver.service.token.ResetPasswordTokenService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
@@ -86,21 +84,28 @@ class AuthRequest(private val userRepository: UserRepository) {
         return generateTokens(userEntity)
     }
 
-    fun confirmationAccount() {
-        eventPublisher.publishEvent(OnRegistrationCompleteEvent(getUserEntity()))
+    fun requestAccountConfirmation() {
+        val userEntity = {
+            val authentication =
+                SecurityContextHolder.getContext().authentication ?: throw SecurityContextAuthNotExistException()
+            val userDetails = authentication.principal as CustomUserDetails
+            userDetails.getUserEntity()
+        }
+
+        eventPublisher.publishEvent(OnRegistrationCompleteEvent(userEntity()))
     }
 
     fun signOut() {
         SecurityContextHolder.clearContext()
     }
 
-    fun refreshToken(refreshToken: String): String {
+    fun generateAccessToken(refreshToken: String): String {
         val refreshTokenEntity = refreshTokenService.validateToken(refreshToken)
         val userEntity = refreshTokenEntity.refUserEntity!!
         return jwtTokenService.generateToken(userEntity)
     }
 
-    fun registrationConfirm(userId: Int, token: String) {
+    fun accountConfirmation(userId: Int, token: String) {
         confirmationTokenService.validateToken(userId, token)
 
         val userEntity = userRepository.findByIdOrNull(userId)!!

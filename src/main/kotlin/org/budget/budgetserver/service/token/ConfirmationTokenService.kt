@@ -1,5 +1,6 @@
 package org.budget.budgetserver.service.token
 
+import org.budget.budgetserver.exception.UserAlreadyActivatedException
 import org.budget.budgetserver.exception.VerificationTokenNotFoundException
 import org.budget.budgetserver.jpa.UserEntity
 import org.budget.budgetserver.jpa.ConfirmationTokenEntity
@@ -14,6 +15,9 @@ class ConfirmationTokenService : AbstractTokenService() {
     private lateinit var confirmationTokenRepository: ConfirmationTokenRepository
 
     override fun generateToken(userEntity: UserEntity): String {
+        if (userEntity.enable)
+            throw UserAlreadyActivatedException()
+
         var confirmationTokenEntity = confirmationTokenRepository.findByUserId(userEntity.id)
 
         if (confirmationTokenEntity != null)

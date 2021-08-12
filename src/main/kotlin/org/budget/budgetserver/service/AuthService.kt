@@ -8,6 +8,4 @@ interface AuthService {
 
     fun signOut()
 
-    fun checkingToken()
-
 }

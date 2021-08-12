@@ -6,62 +6,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 
-@RestController
-class UserController {
 
-    @Autowired
-    lateinit var authRequest: AuthRequest
-
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/login")
-    fun signIn(@RequestParam email: String, @RequestParam pass: String): AuthRequest.AccessRefreshTokens {
-        return authRequest.signIn(email, pass)
-    }
-
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/registration")
-    fun signUp(@RequestParam email: String, @RequestParam pass: String): AuthRequest.AccessRefreshTokens {
-        return authRequest.signUp(email, pass)
-    }
-
-    @GetMapping("/signOut")
-    fun signOut() {
-        authRequest.signOut()
-    }
-
-    @PostMapping("/refreshToken")
-    fun refreshToken(refreshToken: String): String {
-        return authRequest.refreshToken(refreshToken)
-    }
-
-    @GetMapping("/registrationConfirm")
-    fun registrationConfirm(userId: Int, token: String) {
-        authRequest.registrationConfirm(userId, token)
-    }
-
-    @GetMapping("/confirmationAccount")
-    fun confirmationAccount() {
-        authRequest.confirmationAccount()
-    }
-
-    @PostMapping("/resetPassword")
-    fun resetPassword(@RequestParam email: String) {
-        authRequest.resetPassword(email)
-    }
-
-    @PostMapping("/confirmResetPassword")
-    fun confirmResetPassword(@RequestParam email: String, @RequestParam token: Int): String =
-        authRequest.confirmResetPassword(email, token)
-
-    @PostMapping("/changePassword")
-    fun changePassword(pass: String): AuthRequest.AccessRefreshTokens =
-        authRequest.changePassword(pass)
-
-    @GetMapping("/test")
-    fun test(): String {
-        return "This work!!!"
-    }
-}
 
 //@RestController
 //@RequestMapping("/group")

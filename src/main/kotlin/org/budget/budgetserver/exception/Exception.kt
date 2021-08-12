@@ -35,3 +35,6 @@ class ResetPasswordTokenNotFoundException(override val message: String = "") : R
 
 @ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "The validity period has expired")
 class TokenExpiredException(override val message: String = "") : RuntimeException()
+
+@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason =  "Security context auth not exist")
+class SecurityContextAuthNotExistException : RuntimeException()
