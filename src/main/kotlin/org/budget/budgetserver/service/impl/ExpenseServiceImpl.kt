@@ -1,4 +1,4 @@
-package org.budget.budgetserver.service
+package org.budget.budgetserver.service.impl
 
 import org.budget.budgetserver.jpa.ExpenseEntity
 

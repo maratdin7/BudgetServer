@@ -16,7 +16,7 @@ class VerificationTokenNotFoundException(override var message: String = "") : Ru
 class UserAlreadyActivatedException(override var message: String = "") : RuntimeException()
 
 @ResponseStatus(code = HttpStatus.UNAUTHORIZED, reason = "Invalid password")
-class PasswordAuthenticationException : RuntimeException()
+class WrongPasswordException : RuntimeException()
 
 @ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "Refresh token was expired. Please make a new signin request")
 class RefreshTokenException(override val message: String = "") : RuntimeException()

@@ -1,7 +1,8 @@
-package org.budget.budgetserver.service
+package org.budget.budgetserver.service.impl
 
 import org.budget.budgetserver.jpa.GroupEntity
 import org.budget.budgetserver.jpa.UserEntity
+import org.budget.budgetserver.service.GroupService
 
 class GroupServiceImpl : GroupService {
     override fun createGroup(groupName: String): Int {

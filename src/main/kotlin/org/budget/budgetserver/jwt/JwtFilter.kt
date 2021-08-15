@@ -1,6 +1,6 @@
 package org.budget.budgetserver.jwt
 
-import org.budget.budgetserver.service.token.JwtTokenService
+import org.budget.budgetserver.service.token.JwtService
 import io.jsonwebtoken.lang.Strings.hasText
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest
 @Component
 class JwtFilter : GenericFilterBean() {
     @Autowired
-    private lateinit var jwtTokenService: JwtTokenService
+    private lateinit var jwtService: JwtService
 
     @Autowired
     private lateinit var userDetailsService: CustomUserDetailsService
@@ -27,8 +27,8 @@ class JwtFilter : GenericFilterBean() {
     override fun doFilter(servletRequest: ServletRequest?, servletResponse: ServletResponse?, filterChain: FilterChain) {
 
         val token = getTokenFromRequest(servletRequest as HttpServletRequest)
-        if (token != null && jwtTokenService.validateToken(token)) {
-            val userLogin = jwtTokenService.getLoginFromToken(token)
+        if (token != null && jwtService.validateToken(token)) {
+            val userLogin = jwtService.getLoginFromToken(token)
             val userDetails = userDetailsService.loadUserByUsername(userLogin)
             val auth = UsernamePasswordAuthenticationToken(userDetails, null, userDetails.authorities)
             SecurityContextHolder.getContext().authentication = auth

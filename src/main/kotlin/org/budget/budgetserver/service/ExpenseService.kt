@@ -1,6 +1,7 @@
 package org.budget.budgetserver.service
 
 import org.budget.budgetserver.jpa.ExpenseEntity
+import org.budget.budgetserver.service.impl.ExpenseServiceImpl
 
 class ExpenseService : ExpenseServiceImpl {
     override fun createExpense(

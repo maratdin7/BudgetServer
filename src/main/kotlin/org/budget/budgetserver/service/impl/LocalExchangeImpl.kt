@@ -1,4 +1,6 @@
-package org.budget.budgetserver.service
+package org.budget.budgetserver.service.impl
+
+import org.budget.budgetserver.service.LocalExchange
 
 class LocalExchangeImpl : LocalExchange {
     override fun createLocalExchange(

@@ -1,6 +1,7 @@
-package org.budget.budgetserver.service
+package org.budget.budgetserver.service.impl
 
 import org.budget.budgetserver.jpa.CategoryEntity
+import org.budget.budgetserver.service.CategoryService
 
 class CategoryServiceImpl : CategoryService {
     override fun createCategory(groupId: Int, name: String, parentId: Int?, isIncome: Boolean): Int {
