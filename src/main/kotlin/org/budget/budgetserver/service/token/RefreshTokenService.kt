@@ -4,13 +4,18 @@ import org.budget.budgetserver.exception.RefreshTokenException
 import org.budget.budgetserver.jpa.RefreshTokenEntity
 import org.budget.budgetserver.jpa.UserEntity
 import org.budget.budgetserver.repository.RefreshTokenRepository
+import org.budget.budgetserver.service.token.DateConverter.toSqlDate
+import org.budget.budgetserver.service.token.DateConverter.validBeforeToSqlDate
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.sql.Date
+import java.time.LocalDate
 
 @Service
-class RefreshTokenService : AbstractTokenService() {
+class RefreshTokenService : AbstractTokenService<String>() {
 
     @Value("\${jwt.jwtRefreshExpiration}")
     private var daysValid: Long = 0
@@ -19,29 +24,32 @@ class RefreshTokenService : AbstractTokenService() {
     private lateinit var refreshTokenRepository: RefreshTokenRepository
 
     override fun generateToken(userEntity: UserEntity): String {
-        var refreshTokenEntity = RefreshTokenEntity(
+        val token = stringTokenGenerator()
+        val refreshTokenEntity = RefreshTokenEntity(
             refUserEntity = userEntity,
-            token = stringTokenGenerator(),
+            token = token,
             expireDate = validBeforeToSqlDate(daysValid)
         )
 
-        refreshTokenEntity = refreshTokenRepository.save(refreshTokenEntity)
-        return refreshTokenEntity.token
+        refreshTokenRepository.save(refreshTokenEntity)
+        return token
     }
 
-    fun validateToken(refreshToken: String): RefreshTokenEntity {
-        val refreshTokenEntity =
-            refreshTokenRepository.findByToken(refreshToken) ?: throw RefreshTokenException("Token not found")
+    @Transactional
+    override fun validateToken(userId: Int, token: String): Boolean {
+        val isValid = refreshTokenRepository.deleteValidToken(userId, token, LocalDate.now().toSqlDate())
 
-        if (isTokenExpired(refreshTokenEntity.expireDate))
-            deleteBadToken(refreshTokenEntity)
+        if (isValid == 0) {
+            refreshTokenRepository.deleteByUserIdAndToken(userId, token)
+            throw RefreshTokenException("The token is rotten")
+        }
 
-        return refreshTokenEntity
+        return true
     }
 
-    private fun deleteBadToken(refreshTokenEntity: RefreshTokenEntity) {
-        refreshTokenRepository.delete(refreshTokenEntity)
-        throw RefreshTokenException("The token is rotten")
+    @Transactional
+    fun deleteToken(userId: Int, token: String) {
+        refreshTokenRepository.deleteByUserIdAndToken(userId, token)
     }
 
     @Transactional

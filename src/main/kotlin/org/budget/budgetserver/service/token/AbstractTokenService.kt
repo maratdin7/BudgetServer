@@ -8,18 +8,22 @@ import java.util.*
 import java.sql.Date as SqlDate
 import java.util.Date as UtilDate
 
-abstract class AbstractTokenService {
+object DateConverter {
+    fun validBeforeToSqlDate(daysValid: Long): java.sql.Date =
+        validBefore(daysValid).toLocalDate().toSqlDate()
 
-    protected fun validBeforeToSqlDate(daysValid: Long): SqlDate = SqlDate.valueOf(
-        validBefore(daysValid).toLocalDate()
-    )
 
-    protected fun validBeforeToUtilDate(daysValid: Long): UtilDate =
-        UtilDate.from(validBefore(daysValid).toInstant())
+    fun validBeforeToUtilDate(hourValid: Long, daysValid: Long = 0): java.util.Date =
+        UtilDate.from(validBefore(daysValid, hourValid).toInstant())
 
-    protected fun validBefore(daysValid: Long): ZonedDateTime = LocalDate.now()
+    private fun validBefore(daysValid: Long, hourValid: Long = 0): ZonedDateTime = LocalDate.now()
         .plusDays(daysValid)
-        .atStartOfDay(ZoneId.systemDefault())
+        .atStartOfDay(ZoneId.systemDefault()).plusHours(hourValid)
+
+    fun LocalDate.toSqlDate(): SqlDate = SqlDate.valueOf(this)
+}
+
+abstract class AbstractTokenService<T> {
 
     protected fun stringTokenGenerator(): String = UUID.randomUUID().toString()
 
@@ -28,6 +32,7 @@ abstract class AbstractTokenService {
     protected fun isTokenExpired(expireDate: SqlDate) =
         expireDate.toLocalDate() < LocalDate.now()
 
-    abstract fun generateToken(userEntity: UserEntity): String
+    abstract fun generateToken(userEntity: UserEntity): T
 
+    abstract fun validateToken(userId: Int, token: T): Boolean
 }

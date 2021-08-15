@@ -4,12 +4,13 @@ import org.budget.budgetserver.exception.*
 import org.budget.budgetserver.jpa.ResetPasswordTokenEntity
 import org.budget.budgetserver.jpa.UserEntity
 import org.budget.budgetserver.repository.ResetPasswordTokenRepository
+import org.budget.budgetserver.service.token.DateConverter.validBeforeToSqlDate
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
 @Service
-class ResetPasswordTokenService : AbstractTokenService() {
+class ResetPasswordTokenService : AbstractTokenService<Int>() {
 
     @Value("\${reset.password.token.expiration}")
     private var daysValid: Long = 0
@@ -26,7 +27,7 @@ class ResetPasswordTokenService : AbstractTokenService() {
     private fun findTokenIdByUserId(userId: Int): Int =
         resetPasswordTokenRepository.findByUserId(userId)?.id ?: 0
 
-    override fun generateToken(userEntity: UserEntity): String {
+    override fun generateToken(userEntity: UserEntity): Int {
 
         var resetPasswordTokenEntity = ResetPasswordTokenEntity(
             id = findTokenIdByUserId(userEntity.id),
@@ -37,7 +38,7 @@ class ResetPasswordTokenService : AbstractTokenService() {
         )
 
         resetPasswordTokenEntity = resetPasswordTokenRepository.save(resetPasswordTokenEntity)
-        return resetPasswordTokenEntity.token.toString()
+        return resetPasswordTokenEntity.token
     }
 
     private fun ResetPasswordTokenEntity.checkToken(token: Int) {
@@ -58,9 +59,9 @@ class ResetPasswordTokenService : AbstractTokenService() {
         }
     }
 
-    fun validateToken(userEntity: UserEntity, token: Int): Boolean {
+    override fun validateToken(userId: Int, token: Int): Boolean {
         val resetPasswordTokenEntity =
-            resetPasswordTokenRepository.findByUserId(userEntity.id)
+            resetPasswordTokenRepository.findByUserId(userId)
                 ?: throw ResetPasswordTokenNotFoundException("Token not found. Try creating a new token")
 
         resetPasswordTokenEntity.checkToken(token)
@@ -68,4 +69,5 @@ class ResetPasswordTokenService : AbstractTokenService() {
         resetPasswordTokenRepository.delete(resetPasswordTokenEntity)
         return true
     }
+
 }

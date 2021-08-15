@@ -7,8 +7,8 @@ import org.springframework.context.annotation.PropertySource
 import org.springframework.core.env.Environment
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.stereotype.Component
-import java.awt.SystemColor.text
-import javax.security.auth.Subject
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @Component
 @PropertySource("classpath:values.properties")
@@ -25,8 +25,8 @@ class EmailRepository {
 
     fun completeRegistrationMessage(userEntity: UserEntity, token: String): SimpleMailMessage {
         with(env) {
-            var url = getProperty("string.email.registrationConfirm.url", "")
-            url = url.format(userEntity.id, token)
+            var url = getProperty("string.email.registrationConfirm.url", "Error")
+            url = url.format(urlEncode(userEntity.name), token)
 
             var text = getProperty("string.email.registrationConfirm.text", "%s")
             text = text.format(url)
@@ -37,7 +37,10 @@ class EmailRepository {
         }
     }
 
-    fun ResetPasswordMessage(userEntity: UserEntity, token: String): SimpleMailMessage {
+    private fun urlEncode(url: String) = URLEncoder.encode(url, StandardCharsets.UTF_8.toString())
+
+    fun resetPasswordMessage(userEntity: UserEntity, token: String): SimpleMailMessage {
+
         with(env) {
 
             val subject = getProperty("string.email.passwordRecovery.subject", "")

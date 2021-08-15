@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class ConfirmationTokenService : AbstractTokenService() {
+class ConfirmationTokenService : AbstractTokenService<String>() {
 
     @Autowired
     private lateinit var confirmationTokenRepository: ConfirmationTokenRepository
@@ -32,10 +32,12 @@ class ConfirmationTokenService : AbstractTokenService() {
         return confirmationTokenEntity.token
     }
 
-    fun validateToken(userId: Int, token: String) {
+    override fun validateToken(userId: Int, token: String): Boolean {
         val tokenExist = confirmationTokenRepository.existsByUserIdAndToken(userId, token)
 
         if (tokenExist.not())
             throw VerificationTokenNotFoundException()
+
+        return true
     }
 }

@@ -3,24 +3,25 @@ package org.budget.budgetserver.service.token
 import org.budget.budgetserver.jpa.UserEntity
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
+import org.budget.budgetserver.service.token.DateConverter.validBeforeToUtilDate
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 import java.util.*
 
 
-@Component
-class JwtTokenService : AbstractTokenService() {
-    private val logger = LoggerFactory.getLogger(JwtTokenService::class.java)
+@Service
+class JwtService {
+    private val logger = LoggerFactory.getLogger(JwtService::class.java)
 
     @Value("\${jwt.secret}")
     private lateinit var jwtSecret: String
 
     @Value("\${jwt.jwtExpiration}")
-    private var daysValid: Long = 0
+    private var hourValid: Long = 0
 
-    override fun generateToken(userEntity: UserEntity): String {
-        val date: Date = validBeforeToUtilDate(daysValid)
+    fun generateToken(userEntity: UserEntity): String {
+        val date: Date = validBeforeToUtilDate(hourValid)
 
         return Jwts.builder()
             .setSubject(userEntity.name)
