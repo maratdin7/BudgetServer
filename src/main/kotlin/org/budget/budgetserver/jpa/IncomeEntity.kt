@@ -37,13 +37,13 @@ data class IncomeEntity(
     @get:Column(name = "comment", nullable = true)
     val comment: String?,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @get:ManyToOne(fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
     @get:JoinColumn(name = "category_id", referencedColumnName = "id")
     @JsonIgnore
     val refCategoryEntity: CategoryEntity?,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @get:ManyToOne(fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
     @get:JoinColumn(name = "cash_account_id", referencedColumnName = "id")
     @JsonIgnore val refCashAccountEntity: CashAccountEntity?,

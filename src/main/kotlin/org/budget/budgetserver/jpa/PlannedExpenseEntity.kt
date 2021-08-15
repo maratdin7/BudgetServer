@@ -41,12 +41,12 @@ data class PlannedExpenseEntity(
     @get:Column(name = "priority", nullable = false)
     val priority: Int = 0,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @get:ManyToOne(fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
     @get:JoinColumn(name = "category_id", referencedColumnName = "id")
     val refCategoryEntity: CategoryEntity?,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @get:ManyToOne(fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
     @get:JoinColumn(name = "cash_account_id", referencedColumnName = "id")
     val refCashAccountEntity: CashAccountEntity?,

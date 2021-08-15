@@ -27,33 +27,33 @@ data class CashAccountEntity(
     @get:Column(name = "cash", nullable = false)
     val cash: Double,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @get:ManyToOne(fetch = FetchType.LAZY)
     @get:JoinColumn(name = "access_id", referencedColumnName = "id")
     @get:Access(AccessType.FIELD)
     @JsonIgnore
     val refAccessEntity: AccessEntity?,
 
-    @OneToMany(mappedBy = "refCashAccountEntity")
+    @get:OneToMany(mappedBy = "refCashAccountEntity")
     @get:Access(AccessType.FIELD)
     @JsonIgnore
     val refExpenseEntities: List<ExpenseEntity>?,
 
-    @OneToMany(mappedBy = "refCashAccountEntity")
+    @get:OneToMany(mappedBy = "refCashAccountEntity")
     @get:Access(AccessType.FIELD)
     @JsonIgnore
     val refIncomeEntities: List<IncomeEntity>?,
 
-    @OneToMany(mappedBy = "refCashAccountEntitySend")
+    @get:OneToMany(mappedBy = "refCashAccountEntitySend")
     @get:Access(AccessType.FIELD)
     @JsonIgnore
     val refLocalExchangeEntitiesSend: List<LocalExchangeEntity>?,
 
-    @OneToMany(mappedBy = "refCashAccountEntityReceive")
+    @get:OneToMany(mappedBy = "refCashAccountEntityReceive")
     @get:Access(AccessType.FIELD)
     @JsonIgnore
     val refLocalExchangeEntitiesReceive: List<LocalExchangeEntity>?,
 
-    @OneToMany(mappedBy = "refCashAccountEntity")
+    @get:OneToMany(mappedBy = "refCashAccountEntity")
     @get:Access(AccessType.FIELD)
     @JsonIgnore
     val refPlannedExpenseEntities: List<PlannedExpenseEntity>?,

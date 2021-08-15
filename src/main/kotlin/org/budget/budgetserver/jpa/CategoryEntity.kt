@@ -32,36 +32,36 @@ data class CategoryEntity(
     @get:Column(name = "group_id", nullable = true, insertable = false, updatable = false)
     val groupId: Int,
 
-    @OneToMany(mappedBy = "refCategoryEntity", fetch = FetchType.LAZY)
+    @get:OneToMany(mappedBy = "refCategoryEntity", fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
     val refCategoryEntities: List<CategoryEntity>?,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @get:ManyToOne(fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
     @get:JoinColumn(name = "parent_id", referencedColumnName = "id")
     @JsonIgnore val refCategoryEntity: CategoryEntity?,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @get:ManyToOne(fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
     @get:JoinColumn(name = "group_id", referencedColumnName = "id")
     @JsonIgnore val refGroupEntity: GroupEntity?,
 
-    @OneToMany(mappedBy = "refCategoryEntity")
+    @get:OneToMany(mappedBy = "refCategoryEntity")
     @get:Access(AccessType.FIELD)
     @JsonIgnore
     val refExpenseEntities: List<ExpenseEntity>?,
 
-    @OneToMany(mappedBy = "refCategoryEntity")
+    @get:OneToMany(mappedBy = "refCategoryEntity")
     @get:Access(AccessType.FIELD)
     @JsonIgnore
     val refHistoryEntities: List<HistoryEntity>?,
 
-    @OneToMany(mappedBy = "refCategoryEntity")
+    @get:OneToMany(mappedBy = "refCategoryEntity")
     @get:Access(AccessType.FIELD)
     @JsonIgnore
     val refIncomeEntities: List<IncomeEntity>?,
 
-    @OneToMany(mappedBy = "refCategoryEntity")
+    @get:OneToMany(mappedBy = "refCategoryEntity")
     @get:Access(AccessType.FIELD)
     @JsonIgnore
     val refPlannedExpenseEntities: List<PlannedExpenseEntity>?,

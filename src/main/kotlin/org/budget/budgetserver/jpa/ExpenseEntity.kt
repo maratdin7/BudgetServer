@@ -42,13 +42,13 @@ data class ExpenseEntity(
     @get:Column(name = "block", nullable = true)
     val block: java.sql.Date?,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @get:ManyToOne(fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
     @get:JoinColumn(name = "category_id", referencedColumnName = "id")
     @JsonIgnore
     val refCategoryEntity: CategoryEntity?,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @get:ManyToOne(fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
     @get:JoinColumn(name = "cash_account_id", referencedColumnName = "id")
     @JsonIgnore

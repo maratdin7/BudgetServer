@@ -23,7 +23,7 @@ data class ConfirmationTokenEntity(
     @get:Column(name = "token", nullable = false)
     var token: String = "",
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @get:OneToOne(fetch = FetchType.LAZY)
     @get:JoinColumn(name = "user_id", referencedColumnName = "id")
     @get:Access(AccessType.FIELD)
     @JsonIgnore

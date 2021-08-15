@@ -33,7 +33,7 @@ data class ResetPasswordTokenEntity(
     @get:Column(name = "attempt", updatable = true, nullable = false)
     var attempt: Int,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @get:ManyToOne(fetch = FetchType.LAZY)
     @get:JoinColumn(name = "user_id", referencedColumnName = "id")
     @get:Access(AccessType.FIELD)
     @JsonIgnore

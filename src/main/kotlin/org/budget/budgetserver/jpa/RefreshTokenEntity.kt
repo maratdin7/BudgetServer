@@ -28,7 +28,7 @@ data class RefreshTokenEntity(
     @get:Column(name = "expire_date", nullable = false)
     var expireDate: Date,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @get:ManyToOne(fetch = FetchType.LAZY)
     @get:JoinColumn(name = "user_id", referencedColumnName = "id")
     @get:Access(AccessType.FIELD)
     @JsonIgnore

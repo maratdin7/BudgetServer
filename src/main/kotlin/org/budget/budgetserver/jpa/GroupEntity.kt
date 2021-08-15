@@ -22,17 +22,17 @@ data class GroupEntity(
     @get:Column(name = "last_change", nullable = false)
     val lastChange: java.sql.Date,
 
-    @OneToMany(mappedBy = "refGroupEntity")
+    @get:OneToMany(mappedBy = "refGroupEntity")
     @get:Access(AccessType.FIELD)
     @JsonIgnore
     val refAccessEntities: List<AccessEntity>?,
 
-    @OneToMany(mappedBy = "refGroupEntity")
+    @get:OneToMany(mappedBy = "refGroupEntity")
     @get:Access(AccessType.FIELD)
     @JsonIgnore
     val refCategoryEntities: List<CategoryEntity>?,
 
-    @OneToMany(mappedBy = "refGroupEntity")
+    @get:OneToMany(mappedBy = "refGroupEntity")
     @get:Access(AccessType.FIELD)
     @JsonIgnore
     val refHistoryEntities: List<HistoryEntity>?,

@@ -29,27 +29,27 @@ data class AccessEntity(
     @get:Column(name = "who_invited", nullable = true, insertable = false, updatable = false)
     val whoInvited: Int,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @get:ManyToOne(fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
     @get:JoinColumn(name = "group_id", referencedColumnName = "id")
     val refGroupEntity: GroupEntity?,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @get:ManyToOne(fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
     @get:JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnore val refUserEntity: UserEntity?,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @get:ManyToOne(fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
     @get:JoinColumn(name = "who_invited", referencedColumnName = "id")
     @JsonIgnore val refAccessEntity: AccessEntity?,
 
-    @OneToMany(mappedBy = "refAccessEntity")
+    @get:OneToMany(mappedBy = "refAccessEntity")
     @get:Access(AccessType.FIELD)
     @JsonIgnore
     val refAccessEntities: List<AccessEntity>?,
 
-    @OneToMany(mappedBy = "refAccessEntity")
+    @get:OneToMany(mappedBy = "refAccessEntity")
     @get:Access(AccessType.FIELD)
     @JsonIgnore val refCashAccountEntities: List<CashAccountEntity>?,
 

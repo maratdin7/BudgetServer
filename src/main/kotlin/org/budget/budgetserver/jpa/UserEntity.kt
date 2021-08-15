@@ -30,12 +30,12 @@ data class UserEntity(
     var enable: Boolean = false,
 
     @get:Access(AccessType.FIELD)
-    @OneToMany(mappedBy = "refUserEntity")
+    @get:OneToMany(mappedBy = "refUserEntity")
     @JsonIgnore
     var refAccessEntities: List<AccessEntity>? = null,
 
     @get:Access(AccessType.FIELD)
-    @OneToMany(mappedBy = "refUserEntity")
+    @get:OneToMany(mappedBy = "refUserEntity")
     @JsonIgnore
     var refreshTokenEntity: List<RefreshTokenEntity>? = null,
     ) {

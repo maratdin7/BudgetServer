@@ -37,13 +37,13 @@ data class LocalExchangeEntity(
     @get:Column(name = "comment", nullable = true)
     val comment: String?,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @get:ManyToOne(fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
 
     @get:JoinColumn(name = "sender_id", referencedColumnName = "id")
     @JsonIgnore val refCashAccountEntitySend: CashAccountEntity?,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @get:ManyToOne(fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
 
     @get:JoinColumn(name = "receiver_id", referencedColumnName = "id")

@@ -31,12 +31,12 @@ data class HistoryEntity(
     @get:Column(name = "group_id", nullable = true, insertable = false, updatable = false)
     val groupId: Int,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @get:ManyToOne(fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
     @get:JoinColumn(name = "category_id", referencedColumnName = "id")
     val refCategoryEntity: CategoryEntity?,
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @get:ManyToOne(fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
     @get:JoinColumn(name = "group_id", referencedColumnName = "id")
     val refGroupEntity: GroupEntity?,
