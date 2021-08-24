@@ -8,13 +8,13 @@ import org.springframework.mail.SimpleMailMessage
 import org.springframework.stereotype.Component
 
 @Component
-class ResetPasswordListener : AbstractMailEventListener<OnResetPasswordEvent>() {
+class ResetPasswordListener : AbstractMailEventListener<OnResetPasswordEvent, UserEntity>() {
     @Autowired
     private lateinit var resetPasswordTokenService: ResetPasswordTokenService
 
-    override fun getMessage(userEntity: UserEntity): SimpleMailMessage {
-        val token = resetPasswordTokenService.generateToken(userEntity)
+    override fun getMessage(source: UserEntity): SimpleMailMessage {
+        val token = resetPasswordTokenService.generateToken(source)
 
-        return emailRepository.resetPasswordMessage(userEntity, token.toString())
+        return emailRepository.resetPasswordMessage(source.name, token.toString())
     }
 }

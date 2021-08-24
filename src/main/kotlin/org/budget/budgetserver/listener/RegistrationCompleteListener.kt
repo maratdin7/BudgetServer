@@ -8,14 +8,14 @@ import org.springframework.mail.SimpleMailMessage
 import org.springframework.stereotype.Component
 
 @Component
-class RegistrationCompleteListener : AbstractMailEventListener<OnRegistrationCompleteEvent>() {
+class RegistrationCompleteListener : AbstractMailEventListener<OnRegistrationCompleteEvent, UserEntity>() {
 
     @Autowired
     private lateinit var confirmationTokenService: ConfirmationTokenService
 
-    override fun getMessage(userEntity: UserEntity): SimpleMailMessage {
-        val token = confirmationTokenService.generateToken(userEntity)
+    override fun getMessage(source: UserEntity): SimpleMailMessage {
+        val token = confirmationTokenService.generateToken(source)
 
-        return emailRepository.completeRegistrationMessage(userEntity, token)
+        return emailRepository.completeRegistrationMessage(source.name, token)
     }
 }

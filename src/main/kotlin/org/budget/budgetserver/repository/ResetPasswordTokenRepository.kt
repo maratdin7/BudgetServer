@@ -1,6 +1,5 @@
 package org.budget.budgetserver.repository
 
-import org.budget.budgetserver.jpa.RefreshTokenEntity
 import org.budget.budgetserver.jpa.ResetPasswordTokenEntity
 import org.springframework.data.jpa.repository.JpaRepository
 

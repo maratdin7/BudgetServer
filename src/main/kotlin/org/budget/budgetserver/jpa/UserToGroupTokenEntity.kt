@@ -1,12 +1,11 @@
 package org.budget.budgetserver.jpa
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import org.budget.budgetserver.service.RoleInGroup
 import javax.persistence.*
 
 @Entity
-@Table(name = "tb_access", schema = "public", catalog = "Budget")
-data class AccessEntity(
+@Table(name = "tb_user_to_group_token", schema = "public", catalog = "Budget")
+data class UserToGroupTokenEntity(
     @get:Id
     @get:Access(AccessType.FIELD)
     @get:GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,40 +14,36 @@ data class AccessEntity(
 
     @get:Basic
     @get:Access(AccessType.FIELD)
+    @get:Column(name = "user_id", nullable = false, insertable = false, updatable = false)
+    var userId: Int = 0,
+
+    @get:Basic
+    @get:Access(AccessType.FIELD)
     @get:Column(name = "group_id", nullable = false, insertable = false, updatable = false)
     var groupId: Int = 0,
 
     @get:Basic
     @get:Access(AccessType.FIELD)
-    @get:Column(name = "user_id", nullable = false, insertable = false, updatable = false)
-    var userId: Int = 0,
-
-    @get:Basic
-    @get:Enumerated(EnumType.STRING)
-    @get:Access(AccessType.FIELD)
-    @get:Column(name = "role", nullable = false, insertable = false, updatable = true)
-    var role: RoleInGroup = RoleInGroup.USER,
-
-    @get:ManyToOne(fetch = FetchType.LAZY)
-    @get:Access(AccessType.FIELD)
-    @get:JoinColumn(name = "group_id", referencedColumnName = "id")
-    val refGroupEntity: GroupEntity,
+    @get:Column(name = "token", nullable = false)
+    var token: String = "",
 
     @get:ManyToOne(fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
     @get:JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnore val refUserEntity: UserEntity,
 
-    @get:OneToMany(mappedBy = "refAccessEntity")
+    @get:ManyToOne(fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
-    @JsonIgnore val refCashAccountEntities: List<CashAccountEntity>? = null,
+    @get:JoinColumn(name = "group_id", referencedColumnName = "id")
+    @JsonIgnore val refGroupEntity: GroupEntity,
 
     ) {
     override fun toString(): String =
         "Entity of type: ${javaClass.name} ( " +
                 "id = $id " +
-                "groupId = $groupId " +
                 "userId = $userId " +
-                "role = $role " +
+                "groupId = $groupId " +
+                "token = $token " +
                 ")"
 }
+

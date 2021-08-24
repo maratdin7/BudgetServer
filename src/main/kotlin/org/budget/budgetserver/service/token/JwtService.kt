@@ -1,31 +1,32 @@
 package org.budget.budgetserver.service.token
 
-import org.budget.budgetserver.jpa.UserEntity
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
-import org.budget.budgetserver.service.token.DateConverter.validBeforeToUtilDate
+import org.budget.budgetserver.jpa.UserEntity
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 import java.util.*
 
 
-@Service
+@Component
 class JwtService {
     private val logger = LoggerFactory.getLogger(JwtService::class.java)
 
     @Value("\${jwt.secret}")
     private lateinit var jwtSecret: String
 
-    @Value("\${jwt.jwtExpiration}")
-    private var hourValid: Long = 0
+    @Value("\${jwt.jwtExpirationInMillis}")
+    private var jwtExpirationInMillis: Long = 0
 
     fun generateToken(userEntity: UserEntity): String {
-        val date: Date = validBeforeToUtilDate(hourValid)
+        val nowInMillis = System.currentTimeMillis()
+        val expInMillis = nowInMillis + jwtExpirationInMillis
 
         return Jwts.builder()
             .setSubject(userEntity.name)
-            .setExpiration(date)
+            .setIssuedAt(Date(nowInMillis))
+            .setExpiration(Date(expInMillis))
             .signWith(SignatureAlgorithm.HS512, jwtSecret)
             .compact()
     }

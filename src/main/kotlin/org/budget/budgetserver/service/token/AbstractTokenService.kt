@@ -2,6 +2,7 @@ package org.budget.budgetserver.service.token
 
 import org.budget.budgetserver.jpa.UserEntity
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.*
@@ -16,11 +17,12 @@ object DateConverter {
     fun validBeforeToUtilDate(hourValid: Long, daysValid: Long = 0): java.util.Date =
         UtilDate.from(validBefore(daysValid, hourValid).toInstant())
 
-    private fun validBefore(daysValid: Long, hourValid: Long = 0): ZonedDateTime = LocalDate.now()
-        .plusDays(daysValid)
-        .atStartOfDay(ZoneId.systemDefault()).plusHours(hourValid)
+    private fun validBefore(daysValid: Long, hourValid: Long = 0): ZonedDateTime = LocalDateTime.now()
+        .plusDays(daysValid).plusHours(hourValid).atZone(ZoneId.systemDefault())
 
     fun LocalDate.toSqlDate(): SqlDate = SqlDate.valueOf(this)
+
+    fun nowSqlDate(): SqlDate = LocalDate.now().toSqlDate()
 }
 
 abstract class AbstractTokenService<T> {

@@ -1,7 +1,6 @@
 package org.budget.budgetserver.jpa
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import java.sql.Date
 import javax.persistence.*
 
 @Entity

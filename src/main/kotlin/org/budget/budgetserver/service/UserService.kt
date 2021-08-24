@@ -1,4 +1,4 @@
-package org.budget.budgetserver.service.impl
+package org.budget.budgetserver.service
 
 import org.budget.budgetserver.exception.UsernameAlreadyExistException
 import org.budget.budgetserver.exception.UsernameNotFoundException

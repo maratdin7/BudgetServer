@@ -1,13 +1,12 @@
 package org.budget.budgetserver.service.impl
 
-import org.budget.budgetserver.exception.SecurityContextAuthNotExistException
-import org.budget.budgetserver.jpa.UserEntity
-import org.budget.budgetserver.jwt.CustomUserDetails
+import org.budget.budgetserver.service.AccessRefreshTokens
 import org.budget.budgetserver.service.AccountSettingService
+import org.budget.budgetserver.service.Service.getUserEntity
+import org.budget.budgetserver.service.UserService
 import org.budget.budgetserver.service.token.JwtService
 import org.budget.budgetserver.service.token.RefreshTokenService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
 @Service
@@ -35,16 +34,5 @@ class AccountSettingServiceImpl : AccountSettingService {
             refreshTokenService.deleteAllTokens(id)
             return AccessRefreshTokens(jwtService, refreshTokenService, userEntity)
         }
-    }
-
-    private fun getUserEntity(): UserEntity {
-        val securityContext = SecurityContextHolder.getContext()
-
-        val authentication =
-            securityContext.authentication
-                ?: throw SecurityContextAuthNotExistException()
-
-        val userDetails = authentication.principal as CustomUserDetails
-        return userDetails.getUserEntity()
     }
 }

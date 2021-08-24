@@ -1,7 +1,7 @@
 package org.budget.budgetserver.controller
 
+import org.budget.budgetserver.service.AccessRefreshTokens
 import org.budget.budgetserver.service.AuthService
-import org.budget.budgetserver.service.impl.AccessRefreshTokens
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*

@@ -37,7 +37,18 @@ data class UserEntity(
     @get:Access(AccessType.FIELD)
     @get:OneToMany(mappedBy = "refUserEntity")
     @JsonIgnore
-    var refreshTokenEntity: List<RefreshTokenEntity>? = null,
+    var refRefreshTokenEntities: List<RefreshTokenEntity>? = null,
+
+    @get:Access(AccessType.FIELD)
+    @get:OneToMany(mappedBy = "refUserEntity")
+    @JsonIgnore
+    var refResetPasswordTokenEntities: List<ResetPasswordTokenEntity>? = null,
+
+    @get:Access(AccessType.FIELD)
+    @get:OneToMany(mappedBy = "refUserEntity")
+    @JsonIgnore
+    var refUserToGroupTokenEntity: List<UserToGroupTokenEntity>? = null,
+
     ) {
     override fun toString(): String =
         "Entity of type: ${javaClass.name} ( " +

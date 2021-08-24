@@ -2,8 +2,8 @@ package org.budget.budgetserver.service.token
 
 import org.budget.budgetserver.exception.UserAlreadyActivatedException
 import org.budget.budgetserver.exception.VerificationTokenNotFoundException
-import org.budget.budgetserver.jpa.UserEntity
 import org.budget.budgetserver.jpa.ConfirmationTokenEntity
+import org.budget.budgetserver.jpa.UserEntity
 import org.budget.budgetserver.repository.ConfirmationTokenRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service

@@ -1,38 +1,7 @@
 package org.budget.budgetserver.controller
 
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.*
 
 
-
-
-//@RestController
-//@RequestMapping("/group")
-//class GroupController {
-//
-//    @Autowired
-//    lateinit var creationRequests: CreationRequests
-//
-//    @PostMapping("/create")
-//    fun createGroup(@RequestParam groupName: String): Int =
-//        creationRequests.createGroup(groupName)
-//
-//    @PostMapping("/addUserToGroup")
-//    fun addUserToGroup(@RequestParam groupId: Int, @RequestParam email: String) =
-//        creationRequests.addUserToGroup(groupId, email)
-//
-//    @PostMapping("/allMyGroup")
-//    fun getAllGroup(): List<GroupEntity?> {
-//        return creationRequests.getAllUserGroup()
-//    }
-//
-//    @PostMapping("/allUsersInGroup")
-//    fun getAllUsers(@RequestParam groupId: Int): List<UserEntity> {
-//        return creationRequests.getAllUsersOfUserGroup(groupId)
-//    }
-//
-//}
 //
 //@RestController
 //@RequestMapping("/category")

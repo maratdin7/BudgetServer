@@ -10,7 +10,4 @@ interface UserRepository : JpaRepository<UserEntity, Int> {
     fun existsByName(login: String): Boolean
 
     fun findUserEntityByName(login: String): UserEntity?
-
-    @Query(value = """SELECT password FROM tb_user WHERE name=:name""", nativeQuery = true)
-    fun getUserPassword(name: String): String?
 }

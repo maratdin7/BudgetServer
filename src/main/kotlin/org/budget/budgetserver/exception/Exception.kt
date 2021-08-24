@@ -36,5 +36,20 @@ class ResetPasswordTokenNotFoundException(override val message: String = "") : R
 @ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "The validity period has expired")
 class TokenExpiredException(override val message: String = "") : RuntimeException()
 
-@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason =  "Security context auth not exist")
+@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Security context auth not exist")
 class SecurityContextAuthNotExistException : RuntimeException()
+
+@ResponseStatus(code = HttpStatus.CONFLICT, reason = "Group already exists")
+class GroupAlreadyExistsException(override val message: String = "") : RuntimeException()
+
+@ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "The user is not a member of the group")
+class UserIsNotMemberOfGroupException(override val message: String = "") : RuntimeException()
+
+@ResponseStatus(code = HttpStatus.CONFLICT, reason = "The user is already a member of the group")
+class UserIsAlreadyMemberOfGroupException(override val message: String = "") : RuntimeException()
+
+@ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "The group was not found")
+class GroupNotFoundException(override val message: String = "") : RuntimeException()
+
+@ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "Token not valid")
+class UserToGroupTokenException(override val message: String = "") : RuntimeException()
