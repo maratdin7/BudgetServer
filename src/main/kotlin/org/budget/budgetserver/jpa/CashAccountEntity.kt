@@ -10,12 +10,12 @@ data class CashAccountEntity(
     @get:Access(AccessType.FIELD)
     @get:GeneratedValue(strategy = GenerationType.IDENTITY)
     @get:Column(name = "id", nullable = false, insertable = false, updatable = false)
-    val id: Int,
+    val id: Int = 0,
 
     @get:Basic
     @get:Access(AccessType.FIELD)
     @get:Column(name = "access_id", nullable = true, insertable = false, updatable = false)
-    val accessId: Int,
+    val accessId: Int = 0,
 
     @get:Basic
     @get:Access(AccessType.FIELD)
@@ -25,7 +25,7 @@ data class CashAccountEntity(
     @get:Basic
     @get:Access(AccessType.FIELD)
     @get:Column(name = "cash", nullable = false)
-    val cash: Double,
+    val cash: Double = 0.0,
 
     @get:ManyToOne(fetch = FetchType.LAZY)
     @get:JoinColumn(name = "access_id", referencedColumnName = "id")
@@ -36,27 +36,27 @@ data class CashAccountEntity(
     @get:OneToMany(mappedBy = "refCashAccountEntity")
     @get:Access(AccessType.FIELD)
     @JsonIgnore
-    val refExpenseEntities: List<ExpenseEntity>?,
+    val refExpenseEntities: List<ExpenseEntity>? = null,
 
     @get:OneToMany(mappedBy = "refCashAccountEntity")
     @get:Access(AccessType.FIELD)
     @JsonIgnore
-    val refIncomeEntities: List<IncomeEntity>?,
+    val refIncomeEntities: List<IncomeEntity>? = null,
 
     @get:OneToMany(mappedBy = "refCashAccountEntitySend")
     @get:Access(AccessType.FIELD)
     @JsonIgnore
-    val refLocalExchangeEntitiesSend: List<LocalExchangeEntity>?,
+    val refLocalExchangeEntitiesSend: List<LocalExchangeEntity>? = null,
 
     @get:OneToMany(mappedBy = "refCashAccountEntityReceive")
     @get:Access(AccessType.FIELD)
     @JsonIgnore
-    val refLocalExchangeEntitiesReceive: List<LocalExchangeEntity>?,
+    val refLocalExchangeEntitiesReceive: List<LocalExchangeEntity>? = null,
 
     @get:OneToMany(mappedBy = "refCashAccountEntity")
     @get:Access(AccessType.FIELD)
     @JsonIgnore
-    val refPlannedExpenseEntities: List<PlannedExpenseEntity>?,
+    val refPlannedExpenseEntities: List<PlannedExpenseEntity>? = null,
 
     ) {
     override fun toString(): String =

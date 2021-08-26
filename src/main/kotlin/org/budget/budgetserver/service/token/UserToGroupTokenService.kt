@@ -42,8 +42,7 @@ class UserToGroupTokenService {
     }
 
     fun validateToken(userId: Int, groupId: Int, token: String): Boolean {
-        if (accessService.isUserMemberOfGroup(userId, groupId))
-            throw UserIsAlreadyMemberOfGroupException()
+        accessService.userNotMemberOfGroup(userId, groupId)
 
         userToGroupRepository.findByUserIdAndGroupIdAndToken(userId, groupId, token) ?:
             throw UserToGroupTokenException()

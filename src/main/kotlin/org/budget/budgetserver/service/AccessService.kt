@@ -1,5 +1,7 @@
 package org.budget.budgetserver.service
 
+import org.budget.budgetserver.exception.UserIsAlreadyMemberOfGroupException
+import org.budget.budgetserver.exception.UserIsNotMemberOfGroupException
 import org.budget.budgetserver.jpa.AccessEntity
 import org.budget.budgetserver.jpa.GroupEntity
 import org.budget.budgetserver.jpa.UserEntity
@@ -24,6 +26,16 @@ class AccessService {
             role = role
         )
     )
+
+    fun userMemberOfGroup(userId: Int, groupId: Int): Boolean =
+        if (isUserMemberOfGroup(userId, groupId))
+            true
+        else throw UserIsNotMemberOfGroupException()
+
+    fun userNotMemberOfGroup(userId: Int, groupId: Int): Boolean =
+        if (isUserMemberOfGroup(userId, groupId))
+            throw UserIsAlreadyMemberOfGroupException()
+        else true
 
     fun isUserMemberOfGroup(userId: Int, groupId: Int): Boolean =
         accessRepository.existsByUserIdAndGroupId(userId, groupId)

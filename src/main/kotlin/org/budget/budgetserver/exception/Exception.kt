@@ -53,3 +53,6 @@ class GroupNotFoundException(override val message: String = "") : RuntimeExcepti
 
 @ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "Token not valid")
 class UserToGroupTokenException(override val message: String = "") : RuntimeException()
+
+@ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "The cash account was not found")
+class CashAccountNotFoundException(override val message: String = "") : RuntimeException()

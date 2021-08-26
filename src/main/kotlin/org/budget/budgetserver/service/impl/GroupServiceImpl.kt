@@ -53,8 +53,7 @@ class GroupServiceImpl : GroupService {
             accessService.findUserAccess(userEntity.id, groupId) ?: throw UserIsNotMemberOfGroupException()
 
         val invitedUserEntity = userService.findUserEntityByName(emailForInvite)
-        if (accessService.isUserMemberOfGroup(invitedUserEntity.id, groupId))
-            throw UserIsAlreadyMemberOfGroupException()
+        accessService.userNotMemberOfGroup(invitedUserEntity.id, groupId)
 
         val groupEntity = accessEntity.refGroupEntity
         eventPublisher.publishEvent(OnInvitingUserToGroupEvent(invitedUserEntity, groupEntity))
