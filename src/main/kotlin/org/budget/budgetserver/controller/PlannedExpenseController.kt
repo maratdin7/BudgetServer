@@ -1,11 +1,9 @@
 package org.budget.budgetserver.controller
 
+import org.budget.budgetserver.jpa.PlannedExpenseEntity
 import org.budget.budgetserver.service.PlannedExpenseService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/plannedExpense")
@@ -20,8 +18,12 @@ class PlannedExpenseController {
         @RequestParam cashAccountId: Int,
         @RequestParam day: Int,
         @RequestParam price: Double,
-        comment: String?
+        comment: String?,
     ) = plannedExpenseService.createPlannedExpense(categoryId, cashAccountId, day, price, comment)
 
-
+    @GetMapping("/all")
+    fun getAllPlannedExpense(
+        @RequestParam groupId: Int,
+    ): List<PlannedExpenseEntity> =
+        plannedExpenseService.getAllPlannedExpenses(groupId)
 }

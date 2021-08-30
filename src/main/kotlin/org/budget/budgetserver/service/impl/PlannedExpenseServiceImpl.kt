@@ -5,8 +5,10 @@ import org.budget.budgetserver.jpa.ExpenseEntity
 import org.budget.budgetserver.jpa.PlannedExpenseEntity
 import org.budget.budgetserver.repository.PlannedExpenseRepository
 import org.budget.budgetserver.service.PlannedExpenseService
+import org.budget.budgetserver.service.internal.AccessServiceInternal
 import org.budget.budgetserver.service.internal.ExpenseServiceInternal
 import org.budget.budgetserver.service.internal.PlannedExpenseServiceInternal
+import org.budget.budgetserver.service.internal.Service.getLoggedUserId
 import org.budget.budgetserver.service.token.DateConverter.toSqlDate
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.scheduling.annotation.EnableScheduling
@@ -20,6 +22,9 @@ class PlannedExpenseServiceImpl : PlannedExpenseService {
 
     @Autowired
     private lateinit var expenseServiceInternal: ExpenseServiceInternal
+
+    @Autowired
+    private lateinit var accessServiceInternal: AccessServiceInternal
 
     @Autowired
     private lateinit var plannedExpenseServiceInternal: PlannedExpenseServiceInternal
@@ -38,6 +43,12 @@ class PlannedExpenseServiceImpl : PlannedExpenseService {
             price = price,
             comment = comment
         ))
+    }
+
+    override fun getAllPlannedExpenses(groupId: Int): List<PlannedExpenseEntity> {
+        accessServiceInternal.userMemberOfGroup(getLoggedUserId(), groupId)
+
+        return plannedExpenseServiceInternal.getAllPlannedExpenses(groupId)
     }
 
     @Scheduled(cron = "0 0 0 * * ?")

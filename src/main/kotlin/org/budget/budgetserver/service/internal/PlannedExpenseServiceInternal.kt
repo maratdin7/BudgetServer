@@ -44,5 +44,8 @@ class PlannedExpenseServiceInternal {
         }
     }
 
+    fun getAllPlannedExpenses(groupId: Int): List<PlannedExpenseEntity> =
+        plannedExpenseRepository.findByGroupId(groupId)
+
 
 }
