@@ -1,6 +1,8 @@
 package org.budget.budgetserver.service.impl
 
 import org.budget.budgetserver.exception.RequestErrorException
+import org.budget.budgetserver.jpa.CashAccountEntity
+import org.budget.budgetserver.jpa.CategoryEntity
 import org.budget.budgetserver.jpa.ExpenseEntity
 import org.budget.budgetserver.jpa.ExpenseType
 import org.budget.budgetserver.repository.ExpenseCriteria
@@ -9,6 +11,7 @@ import org.budget.budgetserver.service.ExpenseService
 import org.budget.budgetserver.service.internal.AccessServiceInternal
 import org.budget.budgetserver.service.internal.CashAccountServiceInternal
 import org.budget.budgetserver.service.internal.CategoryServiceInternal
+import org.budget.budgetserver.service.internal.ExpenseServiceInternal
 import org.budget.budgetserver.service.internal.Service.getLoggedUserId
 import org.budget.budgetserver.service.token.DateConverter.toSqlDate
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,16 +24,7 @@ import java.sql.Date
 class ExpenseServiceImpl : ExpenseService {
 
     @Autowired
-    private lateinit var expenseRepository: ExpenseRepository
-
-    @Autowired
-    private lateinit var categoryServiceInternal: CategoryServiceInternal
-
-    @Autowired
-    private lateinit var cashAccountServiceInternal: CashAccountServiceInternal
-
-    @Autowired
-    private lateinit var accessServiceInternal: AccessServiceInternal
+    private lateinit var expenseServiceInternal: ExpenseServiceInternal
 
     @Value("\${int.pageSize}")
     private var pageSize: Int = 0
@@ -42,28 +36,20 @@ class ExpenseServiceImpl : ExpenseService {
         price: Double,
         comment: String?,
     ) {
-        val categoryEntity = categoryServiceInternal.getCategory(categoryId)
-        val groupId = categoryEntity.groupId
+        val (categoryEntity, cashAccountEntity) = expenseServiceInternal.getCategoryAndCashAccount(categoryId,
+            cashAccountId)
 
-        accessServiceInternal.userMemberOfGroup(getLoggedUserId(), groupId)
-
-        val cashAccountEntity =
-            cashAccountServiceInternal.findByIdAndGroupId(cashAccountId, groupId)
-
-        expenseRepository.save(ExpenseEntity(
-            price = price,
-            date = strDate.toSqlDate(),
-            refCategoryEntity = categoryEntity,
-            refCashAccountEntity = cashAccountEntity
-        ))
-
-        cashAccountServiceInternal.update(cashAccountEntity.apply {
-            when (categoryEntity.type) {
-                ExpenseType.EXPENSE -> this.cash -= price
-                ExpenseType.INCOME -> cash += price
-            }
-        })
+        expenseServiceInternal.saveExpenseEntity(
+            ExpenseEntity(
+                refCategoryEntity = categoryEntity,
+                refCashAccountEntity = cashAccountEntity,
+                price = price,
+                date = strDate.toSqlDate(),
+                comment = comment
+            )
+        )
     }
+
 
     override fun getExpenses(
         groupId: Int,
@@ -76,7 +62,6 @@ class ExpenseServiceImpl : ExpenseService {
         to: Double?,
         direction: Sort.Direction?,
     ): List<ExpenseCriteria.ExpensesAns> {
-
         val filter = Filter(
             expenseType = expenseType,
             categoryId = categoryId,
@@ -87,13 +72,7 @@ class ExpenseServiceImpl : ExpenseService {
             priceSortDir = direction
         )
 
-        val ans = expenseRepository.getExpenses(
-            groupId = groupId,
-            filter,
-            page = page,
-            pageSize = pageSize
-        )
-        return ans ?: throw RequestErrorException()
+        return expenseServiceInternal.getExpenses(groupId, filter, page, pageSize)
     }
 
     override fun getSumByFilters(
@@ -105,7 +84,6 @@ class ExpenseServiceImpl : ExpenseService {
         from: Double?,
         to: Double?,
     ): Double {
-
         val filter = Filter(
             expenseType = expenseType,
             categoryId = categoryId,
@@ -115,7 +93,7 @@ class ExpenseServiceImpl : ExpenseService {
             to = to,
             dateSortDir = null
         )
-        return expenseRepository.getSum(groupId, filter) ?: throw RequestErrorException()
+        return expenseServiceInternal.getSumByFilters(groupId, filter)
     }
 }
 
@@ -127,5 +105,5 @@ data class Filter(
     val from: Double? = null,
     val to: Double? = null,
     val priceSortDir: Sort.Direction? = null,
-    val dateSortDir: Sort.Direction? = Sort.Direction.DESC
-    )
+    val dateSortDir: Sort.Direction? = Sort.Direction.DESC,
+)

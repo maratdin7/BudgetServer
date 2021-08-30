@@ -9,12 +9,12 @@ data class PlannedExpenseEntity(
     @get:Access(AccessType.FIELD)
     @get:GeneratedValue(strategy = GenerationType.IDENTITY)
     @get:Column(name = "id", nullable = false)
-    val id: Int,
+    val id: Int = 0,
 
     @get:Basic
     @get:Access(AccessType.FIELD)
     @get:Column(name = "category_id", nullable = false, insertable = false, updatable = false)
-    val categoryId: Int,
+    val categoryId: Int = 0,
 
     @get:Basic
     @get:Access(AccessType.FIELD)
@@ -24,7 +24,7 @@ data class PlannedExpenseEntity(
     @get:Basic
     @get:Access(AccessType.FIELD)
     @get:Column(name = "cash_account_id", nullable = true, insertable = false, updatable = false)
-    val cashAccountId: Int,
+    val cashAccountId: Int = 0,
 
     @get:Basic
     @get:Access(AccessType.FIELD)
@@ -44,13 +44,12 @@ data class PlannedExpenseEntity(
     @get:ManyToOne(fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
     @get:JoinColumn(name = "category_id", referencedColumnName = "id")
-    val refCategoryEntity: CategoryEntity?,
+    val refCategoryEntity: CategoryEntity,
 
     @get:ManyToOne(fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
     @get:JoinColumn(name = "cash_account_id", referencedColumnName = "id")
-    val refCashAccountEntity: CashAccountEntity?,
-
+    val refCashAccountEntity: CashAccountEntity,
 
     ) {
     override fun toString(): String =
