@@ -1,6 +1,7 @@
 package org.budget.budgetserver.jpa
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import java.sql.Date
 import javax.persistence.*
 
 @Entity
@@ -10,27 +11,27 @@ data class LocalExchangeEntity(
     @get:Access(AccessType.FIELD)
     @get:GeneratedValue(strategy = GenerationType.IDENTITY)
     @get:Column(name = "id", nullable = false)
-    val id: Int?,
+    val id: Int = 0,
 
     @get:Basic
     @get:Access(AccessType.FIELD)
     @get:Column(name = "sender_id", nullable = true, insertable = false, updatable = false)
-    val senderId: Int?,
+    val senderId: Int = 0,
 
     @get:Basic
     @get:Access(AccessType.FIELD)
     @get:Column(name = "receiver_id", nullable = true, insertable = false, updatable = false)
-    val receiverId: Int?,
+    val receiverId: Int = 0,
 
     @get:Basic
     @get:Access(AccessType.FIELD)
     @get:Column(name = "sent", nullable = false)
-    val sent: Double?,
+    val sent: Double,
 
     @get:Basic
     @get:Access(AccessType.FIELD)
     @get:Column(name = "date", nullable = false)
-    val date: java.sql.Date?,
+    val date: Date,
 
     @get:Basic
     @get:Access(AccessType.FIELD)
@@ -41,13 +42,13 @@ data class LocalExchangeEntity(
     @get:Access(AccessType.FIELD)
 
     @get:JoinColumn(name = "sender_id", referencedColumnName = "id")
-    @JsonIgnore val refCashAccountEntitySend: CashAccountEntity?,
+    @JsonIgnore val refCashAccountEntitySend: CashAccountEntity,
 
     @get:ManyToOne(fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
 
     @get:JoinColumn(name = "receiver_id", referencedColumnName = "id")
-    @JsonIgnore val refCashAccountEntityReceive: CashAccountEntity?,
+    @JsonIgnore val refCashAccountEntityReceive: CashAccountEntity,
 
     ) {
     override fun toString(): String =

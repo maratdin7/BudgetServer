@@ -133,22 +133,7 @@ package org.budget.budgetserver.controller
 //
 //}
 //
-//@RestController
-//@RequestMapping("/localExchange")
-//class LocalExchangeController {
-//
-//    @Autowired
-//    lateinit var creationRequests: CreationRequests
-//
-//    @PostMapping("/create")
-//    fun createLocalExchange(
-//        groupId: Int,
-//        senderId: Int,
-//        receiverId: Int,
-//        sent: Double,
-//        date: String,
-//        comment: String
-//    ) = creationRequests.createLocalExchange(groupId, senderId, receiverId, sent, Date.valueOf(date), comment)
+
 //
 //    @PostMapping("/allByDate")
 //    fun getLocalExchangeByDate(

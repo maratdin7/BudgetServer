@@ -42,12 +42,7 @@ class ExpenseServiceInternal {
         val expenseEntity = expenseRepository.save(e)
 
         with(expenseEntity) {
-            cashAccountServiceInternal.update(refCashAccountEntity.apply {
-                when (refCategoryEntity.type) {
-                    ExpenseType.EXPENSE -> cash -= price
-                    ExpenseType.INCOME -> cash += price
-                }
-            })
+            cashAccountServiceInternal.updateCash(refCashAccountEntity, price, refCategoryEntity.type)
         }
         return expenseEntity
     }
