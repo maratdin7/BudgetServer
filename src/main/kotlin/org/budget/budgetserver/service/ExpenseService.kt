@@ -1,38 +1,32 @@
 package org.budget.budgetserver.service
 
-import org.budget.budgetserver.jpa.ExpenseEntity
-import org.budget.budgetserver.service.impl.ExpenseServiceImpl
+import org.budget.budgetserver.jpa.ExpenseType
+import org.budget.budgetserver.repository.ExpenseCriteria
+import org.springframework.data.domain.Sort
 
-class ExpenseService : ExpenseServiceImpl {
-    override fun createExpense(
+interface ExpenseService {
+
+    fun getExpenses(
         groupId: Int,
-        categoryId: Int,
-        cashAccountId: Int,
-        date: String,
-        price: Double,
-        comment: String,
-    ) {
-        TODO("Not yet implemented")
-    }
+        page: Int,
+        expenseType: ExpenseType?,
+        categoryId: Int?,
+        afterDate: String?,
+        beforeDate: String?,
+        from: Double?,
+        to: Double?,
+        direction: Sort.Direction?
+    ): List<ExpenseCriteria.ExpensesAns>
 
-    override fun getExpensesByDate(
+    fun createExpense(categoryId: Int, cashAccountId: Int, strDate: String, price: Double, comment: String?)
+
+    fun getSumByFilters(
         groupId: Int,
-        startDate: String,
-        endDate: String,
-        offset: Int,
-        limit: Int,
-    ): List<ExpenseEntity> {
-        TODO("Not yet implemented")
-    }
-
-    override fun getExpensesByPrice(
-        groupId: Int,
-        startDate: String,
-        endDate: String,
-        offset: Int,
-        limit: Int,
-    ): List<ExpenseEntity> {
-        TODO("Not yet implemented")
-    }
-
+        expenseType: ExpenseType?,
+        categoryId: Int?,
+        afterDate: String?,
+        beforeDate: String?,
+        from: Double?,
+        to: Double?
+    ): Double
 }

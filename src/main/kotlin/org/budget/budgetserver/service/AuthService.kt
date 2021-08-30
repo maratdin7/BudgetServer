@@ -1,5 +1,7 @@
 package org.budget.budgetserver.service
 
+import org.budget.budgetserver.service.internal.AccessRefreshTokens
+
 interface AuthService {
 
     fun signIn(login: String, pass: String): AccessRefreshTokens

@@ -39,7 +39,7 @@ class TokenExpiredException(override val message: String = "") : RuntimeExceptio
 @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Security context auth not exist")
 class SecurityContextAuthNotExistException : RuntimeException()
 
-@ResponseStatus(code = HttpStatus.CONFLICT, reason = "Group already exists")
+@ResponseStatus(code = HttpStatus.CONFLICT, reason = "The group already exists")
 class GroupAlreadyExistsException(override val message: String = "") : RuntimeException()
 
 @ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "The user is not a member of the group")
@@ -56,3 +56,15 @@ class UserToGroupTokenException(override val message: String = "") : RuntimeExce
 
 @ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "The cash account was not found")
 class CashAccountNotFoundException(override val message: String = "") : RuntimeException()
+
+@ResponseStatus(code = HttpStatus.CONFLICT, reason = "The category already exists")
+class CategoryAlreadyExistsException(override val message: String = "") : RuntimeException()
+
+@ResponseStatus(code = HttpStatus.CONFLICT, reason = "The category was not found")
+class CategoryNotFoundException(override val message: String = "") : RuntimeException()
+
+@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Sql request exception")
+class RequestErrorException(override val message: String = "") : RuntimeException()
+
+@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "The date format exception")
+class DateFormatException(override val message: String = "") : RuntimeException()

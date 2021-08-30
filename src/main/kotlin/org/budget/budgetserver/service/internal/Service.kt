@@ -1,4 +1,4 @@
-package org.budget.budgetserver.service
+package org.budget.budgetserver.service.internal
 
 import org.budget.budgetserver.exception.SecurityContextAuthNotExistException
 import org.budget.budgetserver.jpa.UserEntity
@@ -6,7 +6,7 @@ import org.budget.budgetserver.jwt.CustomUserDetails
 import org.springframework.security.core.context.SecurityContextHolder
 
 object Service {
-    fun getUserEntity(): UserEntity {
+    fun getLoggedUserEntity(): UserEntity {
         val securityContext = SecurityContextHolder.getContext()
 
         val authentication =
@@ -16,5 +16,7 @@ object Service {
         val userDetails = authentication.principal as CustomUserDetails
         return userDetails.getUserEntity()
     }
+
+    fun getLoggedUserId(): Int = getLoggedUserEntity().id
 
 }

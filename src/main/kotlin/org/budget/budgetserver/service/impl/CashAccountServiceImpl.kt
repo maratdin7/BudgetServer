@@ -1,12 +1,10 @@
 package org.budget.budgetserver.service.impl
 
-import org.budget.budgetserver.exception.CashAccountNotFoundException
-import org.budget.budgetserver.exception.UserIsNotMemberOfGroupException
 import org.budget.budgetserver.jpa.CashAccountEntity
-import org.budget.budgetserver.repository.CashAccountRepository
-import org.budget.budgetserver.service.AccessService
+import org.budget.budgetserver.service.internal.AccessServiceInternal
 import org.budget.budgetserver.service.CashAccountService
-import org.budget.budgetserver.service.Service.getUserEntity
+import org.budget.budgetserver.service.internal.CashAccountServiceInternal
+import org.budget.budgetserver.service.internal.Service.getLoggedUserId
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -14,38 +12,28 @@ import org.springframework.stereotype.Service
 class CashAccountServiceImpl : CashAccountService {
 
     @Autowired
-    private lateinit var accessService: AccessService
+    private lateinit var accessServiceInternal: AccessServiceInternal
 
     @Autowired
-    private lateinit var cashAccountRepository: CashAccountRepository
-
-    private fun getUserId(): Int = getUserEntity().id
+    private lateinit var cashAccountServiceInternal: CashAccountServiceInternal
 
     override fun createCashAccount(groupId: Int, name: String, cash: Double) {
 
         val accessEntity =
-            accessService.findUserAccess(getUserId(), groupId) ?: throw UserIsNotMemberOfGroupException()
+            accessServiceInternal.findUserAccess(getLoggedUserId(), groupId)
 
-        cashAccountRepository.save(
-            CashAccountEntity(
-                name = name,
-                cash = cash,
-                refAccessEntity = accessEntity
-            )
-        )
+        cashAccountServiceInternal.createCashAccount(name, cash, accessEntity)
     }
 
-    override fun allCashAccounts(groupId: Int): List<CashAccountEntity> {
-        accessService.userMemberOfGroup(getUserId(), groupId)
+    override fun getAllCashAccounts(groupId: Int): List<CashAccountEntity> {
+        accessServiceInternal.userMemberOfGroup(getLoggedUserId(), groupId)
 
-        return cashAccountRepository.findAllByGroupId(groupId)
+        return cashAccountServiceInternal.findAllByGroupId(groupId)
     }
 
     override fun getCashAccount(groupId: Int, cashAccountId: Int): CashAccountEntity {
-        accessService.userMemberOfGroup(getUserId(), groupId)
+        accessServiceInternal.userMemberOfGroup(getLoggedUserId(), groupId)
 
-        return cashAccountRepository.findByIdAndGroupId(cashAccountId, groupId)
-            ?: throw CashAccountNotFoundException()
+        return cashAccountServiceInternal.findByIdAndGroupId(cashAccountId, groupId)
     }
-
 }

@@ -25,7 +25,7 @@ data class CashAccountEntity(
     @get:Basic
     @get:Access(AccessType.FIELD)
     @get:Column(name = "cash", nullable = false)
-    val cash: Double = 0.0,
+    var cash: Double = 0.0,
 
     @get:ManyToOne(fetch = FetchType.LAZY)
     @get:JoinColumn(name = "access_id", referencedColumnName = "id")

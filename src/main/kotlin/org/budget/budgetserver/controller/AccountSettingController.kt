@@ -1,6 +1,6 @@
 package org.budget.budgetserver.controller
 
-import org.budget.budgetserver.service.AccessRefreshTokens
+import org.budget.budgetserver.service.internal.AccessRefreshTokens
 import org.budget.budgetserver.service.AccountSettingService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*

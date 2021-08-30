@@ -32,7 +32,7 @@ interface AccessRepository : JpaRepository<AccessEntity, Int> {
 
     @Query(
         """
-        SELECT ge 
+        SELECT ge   
         FROM AccessEntity ae
                 INNER JOIN GroupEntity ge 
                     ON ae.userId = :userId
@@ -40,7 +40,10 @@ interface AccessRepository : JpaRepository<AccessEntity, Int> {
         WHERE ge.name = :groupName         
     """
     )
-    fun isUserMemberOfGroupByName(@Param("userId") userId: Int, @Param("groupName") groupName: String): List<GroupEntity>
+    fun isUserMemberOfGroupByName(
+        @Param("userId") userId: Int,
+        @Param("groupName") groupName: String
+    ): List<GroupEntity>
 
     @Query(
         """SELECT ue

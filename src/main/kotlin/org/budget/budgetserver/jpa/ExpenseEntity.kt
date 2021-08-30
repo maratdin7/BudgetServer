@@ -10,17 +10,17 @@ data class ExpenseEntity(
     @get:Access(AccessType.FIELD)
     @get:GeneratedValue(strategy = GenerationType.IDENTITY)
     @get:Column(name = "id", nullable = false)
-    val id: Int,
+    val id: Int = 0,
 
     @get:Basic
     @get:Access(AccessType.FIELD)
     @get:Column(name = "category_id", nullable = true, insertable = false, updatable = false)
-    val categoryId: Int,
+    val categoryId: Int = 0,
 
     @get:Basic
     @get:Access(AccessType.FIELD)
     @get:Column(name = "cash_account_id", nullable = true, insertable = false, updatable = false)
-    val cashAccountId: Int,
+    val cashAccountId: Int = 0,
 
     @get:Basic
     @get:Access(AccessType.FIELD)
@@ -35,24 +35,24 @@ data class ExpenseEntity(
     @get:Basic
     @get:Access(AccessType.FIELD)
     @get:Column(name = "comment", nullable = true)
-    val comment: String?,
+    val comment: String? = null,
 
     @get:Basic
     @get:Access(AccessType.FIELD)
     @get:Column(name = "block", nullable = true)
-    val block: java.sql.Date?,
+    val block: java.sql.Date? = null,
 
     @get:ManyToOne(fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
     @get:JoinColumn(name = "category_id", referencedColumnName = "id")
     @JsonIgnore
-    val refCategoryEntity: CategoryEntity?,
+    val refCategoryEntity: CategoryEntity,
 
     @get:ManyToOne(fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
     @get:JoinColumn(name = "cash_account_id", referencedColumnName = "id")
     @JsonIgnore
-    val refCashAccountEntity: CashAccountEntity?,
+    val refCashAccountEntity: CashAccountEntity,
 
     ) {
     override fun toString(): String =

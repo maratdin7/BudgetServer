@@ -1,4 +1,4 @@
-package org.budget.budgetserver.service
+package org.budget.budgetserver.service.internal
 
 import org.budget.budgetserver.exception.UserIsAlreadyMemberOfGroupException
 import org.budget.budgetserver.exception.UserIsNotMemberOfGroupException
@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class AccessService {
+class AccessServiceInternal {
 
     @Autowired
     private lateinit var accessRepository: AccessRepository
@@ -40,8 +40,8 @@ class AccessService {
     fun isUserMemberOfGroup(userId: Int, groupId: Int): Boolean =
         accessRepository.existsByUserIdAndGroupId(userId, groupId)
 
-    fun findUserAccess(userId: Int, groupId: Int): AccessEntity? =
-        accessRepository.findByUserIdAndGroupId(userId, groupId)
+    fun findUserAccess(userId: Int, groupId: Int): AccessEntity =
+        accessRepository.findByUserIdAndGroupId(userId, groupId) ?: throw UserIsNotMemberOfGroupException()
 
     fun findAllUserAccess(userId: Int): List<GroupEntity> = accessRepository.findAllUserGroups(userId)
 

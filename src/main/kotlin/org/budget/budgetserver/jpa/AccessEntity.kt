@@ -1,7 +1,7 @@
 package org.budget.budgetserver.jpa
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import org.budget.budgetserver.service.RoleInGroup
+import org.budget.budgetserver.service.internal.RoleInGroup
 import javax.persistence.*
 
 @Entity

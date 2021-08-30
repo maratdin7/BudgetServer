@@ -1,4 +1,4 @@
-package org.budget.budgetserver.service
+package org.budget.budgetserver.service.internal
 
 import org.budget.budgetserver.exception.UsernameAlreadyExistException
 import org.budget.budgetserver.exception.UsernameNotFoundException
@@ -9,10 +9,11 @@ import org.budget.budgetserver.service.token.JwtService
 import org.budget.budgetserver.service.token.RefreshTokenService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
 
 @Service
-class UserService {
+class UserServiceInternal {
 
     @Autowired
     private lateinit var userRepository: UserRepository

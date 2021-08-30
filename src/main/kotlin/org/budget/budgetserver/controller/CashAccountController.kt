@@ -22,7 +22,7 @@ class CashAccountController {
 
     @GetMapping("/all")
     fun allCashAccounts(@RequestParam groupId: Int): List<CashAccountEntity> =
-        cashAccountService.allCashAccounts(groupId)
+        cashAccountService.getAllCashAccounts(groupId)
 
     @GetMapping("/getCashAccount")
     fun getCashAccount(@RequestParam groupId: Int, @RequestParam cashAccountId: Int): CashAccountEntity =

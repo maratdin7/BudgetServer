@@ -4,9 +4,9 @@ import org.budget.budgetserver.event.OnRegistrationCompleteEvent
 import org.budget.budgetserver.event.OnResetPasswordEvent
 import org.budget.budgetserver.exception.UserAlreadyActivatedException
 import org.budget.budgetserver.jpa.UserEntity
-import org.budget.budgetserver.service.AccessRefreshTokens
+import org.budget.budgetserver.service.internal.AccessRefreshTokens
 import org.budget.budgetserver.service.AuthService
-import org.budget.budgetserver.service.UserService
+import org.budget.budgetserver.service.internal.UserServiceInternal
 import org.budget.budgetserver.service.token.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationEventPublisher
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service
 class AuthServiceImpl : AuthService {
 
     @Autowired
-    private lateinit var userService: UserService
+    private lateinit var userServiceInternal: UserServiceInternal
 
     @Autowired
     private lateinit var jwtTokenService: JwtService
@@ -34,19 +34,19 @@ class AuthServiceImpl : AuthService {
     private lateinit var eventPublisher: ApplicationEventPublisher
 
     override fun signIn(login: String, pass: String): AccessRefreshTokens {
-        val userEntity = userService.findUserAndCheck(login, pass)
+        val userEntity = userServiceInternal.findUserAndCheck(login, pass)
         return accessRefreshTokens(userEntity)
     }
 
     override fun signUp(email: String, pass: String): AccessRefreshTokens {
-        val userEntity = userService.createUserEntity(email, pass)
+        val userEntity = userServiceInternal.createUserEntity(email, pass)
 
         eventPublisher.publishEvent(OnRegistrationCompleteEvent(userEntity))
         return accessRefreshTokens(userEntity)
     }
 
     override fun requestAccountConfirmation(email: String) {
-        val userEntity = userService.findUserEntityByName(email)
+        val userEntity = userServiceInternal.findUserEntityByName(email)
 
         eventPublisher.publishEvent(OnRegistrationCompleteEvent(userEntity))
     }
@@ -57,7 +57,7 @@ class AuthServiceImpl : AuthService {
     }
 
     override fun accountConfirmation(email: String, token: String) {
-        val userEntity = userService.findUserEntityByName(email)
+        val userEntity = userServiceInternal.findUserEntityByName(email)
 
         if (userEntity.enable)
             throw UserAlreadyActivatedException()
@@ -65,11 +65,11 @@ class AuthServiceImpl : AuthService {
         confirmationTokenService.validateToken(userEntity.id, token)
 
         userEntity.enable = true
-        userService.updateUserEntity(userEntity)
+        userServiceInternal.updateUserEntity(userEntity)
     }
 
     override fun resetPassword(email: String) {
-        val userEntity = userService.findUserEntityByName(email)
+        val userEntity = userServiceInternal.findUserEntityByName(email)
 
         eventPublisher.publishEvent(OnResetPasswordEvent(userEntity))
     }
@@ -80,7 +80,7 @@ class AuthServiceImpl : AuthService {
     }
 
     private fun <T> AbstractTokenService<T>.validateUserEntityByToken(email: String, token: T): UserEntity {
-        val userEntity = userService.findUserEntityByName(email)
+        val userEntity = userServiceInternal.findUserEntityByName(email)
         this.validateToken(userEntity.id, token)
 
         return userEntity

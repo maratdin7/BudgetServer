@@ -1,12 +1,11 @@
 package org.budget.budgetserver.service.token
 
-import org.budget.budgetserver.exception.UserIsAlreadyMemberOfGroupException
 import org.budget.budgetserver.exception.UserToGroupTokenException
 import org.budget.budgetserver.jpa.GroupEntity
 import org.budget.budgetserver.jpa.UserEntity
 import org.budget.budgetserver.jpa.UserToGroupTokenEntity
 import org.budget.budgetserver.repository.UserToGroupTokenRepository
-import org.budget.budgetserver.service.AccessService
+import org.budget.budgetserver.service.internal.AccessServiceInternal
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
@@ -18,7 +17,7 @@ class UserToGroupTokenService {
     private lateinit var userToGroupRepository: UserToGroupTokenRepository
 
     @Autowired
-    private lateinit var accessService: AccessService
+    private lateinit var accessServiceInternal: AccessServiceInternal
 
     private fun generateToken(): String = UUID.randomUUID().toString()
 
@@ -42,7 +41,7 @@ class UserToGroupTokenService {
     }
 
     fun validateToken(userId: Int, groupId: Int, token: String): Boolean {
-        accessService.userNotMemberOfGroup(userId, groupId)
+        accessServiceInternal.userNotMemberOfGroup(userId, groupId)
 
         userToGroupRepository.findByUserIdAndGroupIdAndToken(userId, groupId, token) ?:
             throw UserToGroupTokenException()
