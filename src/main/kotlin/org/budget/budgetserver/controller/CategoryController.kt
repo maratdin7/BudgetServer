@@ -19,7 +19,7 @@ class CategoryController {
         @RequestParam name: String,
         parentId: Int?,
         @RequestParam(defaultValue = "EXPENSE") type: ExpenseType,
-    ) =
+    ): CategoryEntity =
         categoryService.createCategory(groupId, name, parentId, type)
 
     @GetMapping("/all")

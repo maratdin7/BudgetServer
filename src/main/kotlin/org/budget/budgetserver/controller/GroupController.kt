@@ -18,11 +18,11 @@ class GroupController {
         groupService.createGroup(groupName)
 
     @PostMapping("/invitationToJoinGroup")
-    fun invitationToJoinGroup(@RequestParam groupId: Int, @RequestParam emailForInvite: String) =
+    fun invitationToJoinGroup(@RequestParam groupId: Int, @RequestParam emailForInvite: String): UserEntity =
         groupService.invitationToJoinGroup(groupId, emailForInvite)
 
     @GetMapping("/addUserToGroup")
-    fun addUserToGroup(@RequestParam email:String, @RequestParam groupId: Int, @RequestParam token: String) =
+    fun addUserToGroup(@RequestParam email: String, @RequestParam groupId: Int, @RequestParam token: String) =
         groupService.addUserToGroup(email, groupId, token)
 
     @GetMapping("/allMyGroups")

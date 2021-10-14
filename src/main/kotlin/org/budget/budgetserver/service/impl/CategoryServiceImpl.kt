@@ -18,10 +18,10 @@ class CategoryServiceImpl : CategoryService {
     @Autowired
     private lateinit var categoryServiceInternal: CategoryServiceInternal
 
-    override fun createCategory(groupId: Int, name: String, parentId: Int?, type: ExpenseType) {
+    override fun createCategory(groupId: Int, name: String, parentId: Int?, type: ExpenseType): CategoryEntity {
         val accessEntity = accessServiceInternal.findUserAccess(getLoggedUserId(), groupId)
 
-        categoryServiceInternal.
+        return categoryServiceInternal.
             createCategoryEntity(groupId, name, parentId, type, accessEntity)
     }
 

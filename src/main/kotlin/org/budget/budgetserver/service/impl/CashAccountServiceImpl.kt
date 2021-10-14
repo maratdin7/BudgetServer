@@ -17,12 +17,12 @@ class CashAccountServiceImpl : CashAccountService {
     @Autowired
     private lateinit var cashAccountServiceInternal: CashAccountServiceInternal
 
-    override fun createCashAccount(groupId: Int, name: String, cash: Double) {
+    override fun createCashAccount(groupId: Int, name: String, cash: Double): CashAccountEntity {
 
         val accessEntity =
             accessServiceInternal.findUserAccess(getLoggedUserId(), groupId)
 
-        cashAccountServiceInternal.createCashAccount(name, cash, accessEntity)
+        return cashAccountServiceInternal.createCashAccount(name, cash, accessEntity)
     }
 
     override fun getAllCashAccounts(groupId: Int): List<CashAccountEntity> {

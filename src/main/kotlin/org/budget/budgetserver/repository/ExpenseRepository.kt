@@ -10,8 +10,7 @@ import javax.persistence.*
 import javax.persistence.criteria.*
 
 @Repository
-interface ExpenseRepository : JpaRepository<ExpenseEntity, Int>, ExpenseCriteria {
-}
+interface ExpenseRepository : JpaRepository<ExpenseEntity, Int>, ExpenseCriteria
 
 @Repository
 class ExpenseCriteriaImpl : ExpenseCriteria {

@@ -1,5 +1,6 @@
 package org.budget.budgetserver.service
 
+import org.budget.budgetserver.jpa.ExpenseEntity
 import org.budget.budgetserver.jpa.ExpenseType
 import org.budget.budgetserver.repository.ExpenseCriteria
 import org.springframework.data.domain.Sort
@@ -16,9 +17,9 @@ interface ExpenseService {
         from: Double?,
         to: Double?,
         direction: Sort.Direction?
-    ): List<ExpenseCriteria.ExpensesAns>
+    ): List<ExpenseEntity>
 
-    fun createExpense(categoryId: Int, cashAccountId: Int, strDate: String, price: Double, comment: String?)
+    fun createExpense(categoryId: Int, cashAccountId: Int, strDate: String, price: Double, comment: String?): ExpenseEntity
 
     fun getSumByFilters(
         groupId: Int,

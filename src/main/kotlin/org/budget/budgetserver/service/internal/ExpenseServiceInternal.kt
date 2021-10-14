@@ -50,13 +50,13 @@ class ExpenseServiceInternal {
     fun getSumByFilters(groupId: Int, filter: Filter): Double =
         expenseRepository.getSum(groupId, filter) ?: throw RequestErrorException()
 
-    fun getExpenses(groupId: Int, filter: Filter, page: Int, pageSize: Int): List<ExpenseCriteria.ExpensesAns> {
+    fun getExpenses(groupId: Int, filter: Filter, page: Int, pageSize: Int): List<ExpenseEntity> {
         val ans = expenseRepository.getExpenses(
             groupId = groupId,
             filter,
             page = page,
             pageSize = pageSize
-        )
-        return ans ?: throw RequestErrorException()
+        ) ?: throw RequestErrorException()
+        return ans.map { it.expenseEntity }
     }
 }

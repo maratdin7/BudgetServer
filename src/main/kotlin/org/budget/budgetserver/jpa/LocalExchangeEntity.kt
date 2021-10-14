@@ -42,13 +42,13 @@ data class LocalExchangeEntity(
     @get:Access(AccessType.FIELD)
 
     @get:JoinColumn(name = "sender_id", referencedColumnName = "id")
-    @JsonIgnore val refCashAccountEntitySend: CashAccountEntity,
+    val refCashAccountEntitySend: CashAccountEntity,
 
     @get:ManyToOne(fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
 
     @get:JoinColumn(name = "receiver_id", referencedColumnName = "id")
-    @JsonIgnore val refCashAccountEntityReceive: CashAccountEntity,
+    val refCashAccountEntityReceive: CashAccountEntity,
 
     ) {
     override fun toString(): String =

@@ -4,7 +4,7 @@ import org.budget.budgetserver.jpa.CategoryEntity
 import org.budget.budgetserver.jpa.ExpenseType
 
 interface CategoryService {
-    fun createCategory(groupId: Int, name: String, parentId: Int?, type: ExpenseType)
+    fun createCategory(groupId: Int, name: String, parentId: Int?, type: ExpenseType): CategoryEntity
 
     fun getSubCategories(categoryId: Int): List<CategoryEntity>
 

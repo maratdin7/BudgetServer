@@ -35,11 +35,11 @@ class ExpenseServiceImpl : ExpenseService {
         strDate: String,
         price: Double,
         comment: String?,
-    ) {
+    ): ExpenseEntity {
         val (categoryEntity, cashAccountEntity) = expenseServiceInternal.getCategoryAndCashAccount(categoryId,
             cashAccountId)
 
-        expenseServiceInternal.saveExpenseEntity(
+        return expenseServiceInternal.saveExpenseEntity(
             ExpenseEntity(
                 refCategoryEntity = categoryEntity,
                 refCashAccountEntity = cashAccountEntity,
@@ -61,7 +61,7 @@ class ExpenseServiceImpl : ExpenseService {
         from: Double?,
         to: Double?,
         direction: Sort.Direction?,
-    ): List<ExpenseCriteria.ExpensesAns> {
+    ): List<ExpenseEntity> {
         val filter = Filter(
             expenseType = expenseType,
             categoryId = categoryId,

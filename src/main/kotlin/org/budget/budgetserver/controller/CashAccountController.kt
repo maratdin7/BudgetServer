@@ -17,7 +17,7 @@ class CashAccountController {
         @RequestParam groupId: Int,
         @RequestParam name: String,
         @RequestParam(defaultValue = "0.0") cash: Double
-    ) =
+    ): CashAccountEntity =
         cashAccountService.createCashAccount(groupId, name, cash)
 
     @GetMapping("/all")

@@ -29,14 +29,14 @@ class PlannedExpenseServiceImpl : PlannedExpenseService {
     @Autowired
     private lateinit var plannedExpenseServiceInternal: PlannedExpenseServiceInternal
 
-    override fun createPlannedExpense(categoryId: Int, cashAccountId: Int, day: Int, price: Double, comment: String?) {
+    override fun createPlannedExpense(categoryId: Int, cashAccountId: Int, day: Int, price: Double, comment: String?): PlannedExpenseEntity {
         val (categoryEntity, cashAccountEntity) =
             expenseServiceInternal.getCategoryAndCashAccount(categoryId, cashAccountId)
 
         if ((day in 1..31).not())
             throw DateFormatException()
 
-        plannedExpenseServiceInternal.savePlannedExpense(PlannedExpenseEntity(
+        return plannedExpenseServiceInternal.savePlannedExpense(PlannedExpenseEntity(
             refCategoryEntity = categoryEntity,
             refCashAccountEntity = cashAccountEntity,
             day = day,

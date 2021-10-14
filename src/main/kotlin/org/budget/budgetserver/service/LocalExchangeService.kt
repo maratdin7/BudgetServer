@@ -9,7 +9,7 @@ interface LocalExchangeService {
         sent: Double,
         date: String,
         comment: String?,
-    )
+    ): LocalExchangeEntity
 
     fun getAllLocalExchange(groupId: Int): List<LocalExchangeEntity>
 

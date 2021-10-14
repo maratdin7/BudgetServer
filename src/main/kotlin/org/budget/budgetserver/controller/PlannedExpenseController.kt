@@ -19,7 +19,8 @@ class PlannedExpenseController {
         @RequestParam day: Int,
         @RequestParam price: Double,
         comment: String?,
-    ) = plannedExpenseService.createPlannedExpense(categoryId, cashAccountId, day, price, comment)
+    ): PlannedExpenseEntity =
+        plannedExpenseService.createPlannedExpense(categoryId, cashAccountId, day, price, comment)
 
     @GetMapping("/all")
     fun getAllPlannedExpense(

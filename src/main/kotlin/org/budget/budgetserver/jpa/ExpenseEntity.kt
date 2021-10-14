@@ -45,13 +45,11 @@ data class ExpenseEntity(
     @get:ManyToOne(fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
     @get:JoinColumn(name = "category_id", referencedColumnName = "id")
-    @JsonIgnore
     val refCategoryEntity: CategoryEntity,
 
     @get:ManyToOne(fetch = FetchType.LAZY)
     @get:Access(AccessType.FIELD)
     @get:JoinColumn(name = "cash_account_id", referencedColumnName = "id")
-    @JsonIgnore
     val refCashAccountEntity: CashAccountEntity,
 
     ) {

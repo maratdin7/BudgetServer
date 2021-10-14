@@ -35,7 +35,7 @@ class GroupServiceImpl : GroupService {
     @Autowired
     private lateinit var eventPublisher: ApplicationEventPublisher
 
-    override fun createGroup(groupName: String) {
+    override fun createGroup(groupName: String): GroupEntity {
         val userEntity = getLoggedUserEntity()
         if (accessServiceInternal.isUserMemberOfGroupByName(userEntity.id, groupName))
             throw GroupAlreadyExistsException("Group $groupName already exists")
@@ -43,9 +43,10 @@ class GroupServiceImpl : GroupService {
         val groupEntity = groupRepository.save(GroupEntity(name = groupName))
 
         accessServiceInternal.createAccess(userEntity, groupEntity, RoleInGroup.ADMIN)
+        return groupEntity
     }
 
-    override fun invitationToJoinGroup(groupId: Int, emailForInvite: String) {
+    override fun invitationToJoinGroup(groupId: Int, emailForInvite: String): UserEntity {
         val userEntity = getLoggedUserEntity()
         val accessEntity =
             accessServiceInternal.findUserAccess(userEntity.id, groupId)
@@ -55,6 +56,8 @@ class GroupServiceImpl : GroupService {
 
         val groupEntity = accessEntity.refGroupEntity
         eventPublisher.publishEvent(OnInvitingUserToGroupEvent(invitedUserEntity, groupEntity))
+
+        return invitedUserEntity
     }
 
     override fun addUserToGroup(email: String, groupId: Int, token: String) {

@@ -17,21 +17,21 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-data-rest")
-    implementation("org.springframework.boot:spring-boot-starter-mail")
-    implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.5.4")
+    implementation("org.springframework.boot:spring-boot-starter-data-rest:2.5.4")
+    implementation("org.springframework.boot:spring-boot-starter-mail:2.5.4")
+    implementation("org.springframework.boot:spring-boot-starter-security:2.5.4")
+    implementation("org.springframework.boot:spring-boot-starter-validation:2.5.4")
+    implementation("org.springframework.boot:spring-boot-starter-web:2.5.4")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.12.4")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("io.jsonwebtoken:jjwt:0.9.1")
-    implementation ("com.google.guava:guava:28.1-jre")
-    implementation("org.bouncycastle:bcprov-jdk15on:1.64")
-    runtimeOnly("org.postgresql:postgresql")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.security:spring-security-test")
+    implementation ("com.google.guava:guava:30.1.1-jre")
+    implementation("org.bouncycastle:bcprov-jdk15on:1.69")
+    runtimeOnly("org.postgresql:postgresql:42.2.23.jre7")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:2.5.4")
+    testImplementation("org.springframework.security:spring-security-test:5.5.1")
 }
 
 tasks.withType<KotlinCompile> {

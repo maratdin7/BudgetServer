@@ -23,7 +23,7 @@ class LocalExchangeServiceImpl : LocalExchangeService {
     @Autowired
     private lateinit var accessServiceInternal: AccessServiceInternal
 
-    override fun createLocalExchange(senderId: Int, receiverId: Int, sent: Double, date: String, comment: String?) {
+    override fun createLocalExchange(senderId: Int, receiverId: Int, sent: Double, date: String, comment: String?): LocalExchangeEntity {
         val senderCashAccountEntity = cashAccountServiceInternal.findById(senderId)
 
         val groupId = senderCashAccountEntity.refAccessEntity!!.groupId
@@ -31,7 +31,7 @@ class LocalExchangeServiceImpl : LocalExchangeService {
 
         val receiverCashAccountEntity = cashAccountServiceInternal.findByIdAndGroupId(receiverId, groupId)
 
-        localExchangeRepository.save(LocalExchangeEntity(
+        val localExchangeEntity = localExchangeRepository.save(LocalExchangeEntity(
             refCashAccountEntitySend = senderCashAccountEntity,
             refCashAccountEntityReceive = receiverCashAccountEntity,
             sent = sent,
@@ -42,6 +42,7 @@ class LocalExchangeServiceImpl : LocalExchangeService {
         cashAccountServiceInternal.updateCash(senderCashAccountEntity, sent, ExpenseType.EXPENSE)
         cashAccountServiceInternal.updateCash(receiverCashAccountEntity, sent, ExpenseType.INCOME)
 
+        return localExchangeEntity
     }
 
     override fun getAllLocalExchange(groupId: Int): List<LocalExchangeEntity> {

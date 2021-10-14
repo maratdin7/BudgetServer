@@ -19,7 +19,7 @@ class LocalExchangeController {
         @RequestParam sent: Double,
         @RequestParam date: String,
         comment: String?,
-    ) = localExchangeService.createLocalExchange(senderId, receiverId, sent, date, comment)
+    ): LocalExchangeEntity = localExchangeService.createLocalExchange(senderId, receiverId, sent, date, comment)
 
     @GetMapping("/all")
     fun getAllLocalExchange(@RequestParam groupId: Int): List<LocalExchangeEntity> =

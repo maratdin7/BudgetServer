@@ -4,7 +4,7 @@ import org.budget.budgetserver.jpa.GroupEntity
 import org.budget.budgetserver.jpa.UserEntity
 
 interface GroupService {
-    fun createGroup(groupName: String)
+    fun createGroup(groupName: String): GroupEntity
 
     fun getAllUserGroups(): List<GroupEntity>
 
@@ -12,5 +12,5 @@ interface GroupService {
 
     fun addUserToGroup(email: String, groupId: Int, token: String)
 
-    fun invitationToJoinGroup(groupId: Int, emailForInvite: String)
+    fun invitationToJoinGroup(groupId: Int, emailForInvite: String): UserEntity
 }

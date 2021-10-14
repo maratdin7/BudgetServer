@@ -1,5 +1,6 @@
 package org.budget.budgetserver.controller
 
+import org.budget.budgetserver.jpa.ExpenseEntity
 import org.budget.budgetserver.jpa.ExpenseType
 import org.budget.budgetserver.repository.ExpenseCriteria
 import org.budget.budgetserver.service.ExpenseService
@@ -21,7 +22,8 @@ class ExpenseController {
         @RequestParam date: String,
         @RequestParam price: Double,
         comment: String?,
-    ) = expenseService.createExpense(categoryId, cashAccountId, date, price, comment)
+    ): ExpenseEntity = expenseService.createExpense(categoryId, cashAccountId, date, price, comment)
+
 
     @GetMapping("/getExpenses")
     fun getExpenses(
@@ -34,7 +36,7 @@ class ExpenseController {
         from: Double?,
         to: Double?,
         direction: Sort.Direction?,
-    ): List<ExpenseCriteria.ExpensesAns> =
+    ): List<ExpenseEntity> =
         expenseService.getExpenses(
             groupId, page, expenseType, categoryId, afterDate, beforeDate, from, to, direction
         )
