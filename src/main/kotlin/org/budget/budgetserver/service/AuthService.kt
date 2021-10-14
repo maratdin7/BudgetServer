@@ -1,5 +1,6 @@
 package org.budget.budgetserver.service
 
+import org.budget.budgetserver.jpa.UserEntity
 import org.budget.budgetserver.service.internal.AccessRefreshTokens
 
 interface AuthService {
@@ -14,7 +15,7 @@ interface AuthService {
 
     fun accountConfirmation(email: String, token: String)
 
-    fun resetPassword(email: String)
+    fun resetPassword(email: String): UserEntity
 
     fun confirmResetPassword(email: String, token: Int): String
 }

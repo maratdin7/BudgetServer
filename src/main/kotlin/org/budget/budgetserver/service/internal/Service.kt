@@ -20,3 +20,19 @@ object Service {
     fun getLoggedUserId(): Int = getLoggedUserEntity().id
 
 }
+
+class UpdateCache {
+    private var updateCache: Boolean = false
+
+    fun isUpdate(): Boolean = updateCache.run {
+        val u = this
+        if (this)
+            updateCache = false
+
+        return u
+    }
+
+    fun needAnUpdate() {
+        updateCache = true
+    }
+}

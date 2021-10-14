@@ -1,6 +1,7 @@
 package org.budget.budgetserver
 
 import com.google.common.cache.CacheBuilder
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.cache.Cache
@@ -26,7 +27,7 @@ fun cacheManager(): CacheManager {
             return ConcurrentMapCache(
                 name,
                 CacheBuilder.newBuilder()
-                    .expireAfterWrite(1, TimeUnit.SECONDS)
+                    .expireAfterWrite(10, TimeUnit.SECONDS)
                     .build<Any, Any>().asMap(),
                 false)
         }

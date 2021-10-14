@@ -16,6 +16,8 @@ import org.budget.budgetserver.service.internal.Service.getLoggedUserId
 import org.budget.budgetserver.service.token.DateConverter.toSqlDate
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 import java.sql.Date
@@ -49,7 +51,6 @@ class ExpenseServiceImpl : ExpenseService {
             )
         )
     }
-
 
     override fun getExpenses(
         groupId: Int,

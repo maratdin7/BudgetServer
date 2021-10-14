@@ -68,10 +68,12 @@ class AuthServiceImpl : AuthService {
         userServiceInternal.updateUserEntity(userEntity)
     }
 
-    override fun resetPassword(email: String) {
+    override fun resetPassword(email: String): UserEntity {
         val userEntity = userServiceInternal.findUserEntityByName(email)
 
         eventPublisher.publishEvent(OnResetPasswordEvent(userEntity))
+
+        return userEntity
     }
 
     override fun confirmResetPassword(email: String, token: Int): String {

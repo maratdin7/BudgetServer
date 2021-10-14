@@ -7,6 +7,9 @@ import org.budget.budgetserver.jpa.CategoryEntity
 import org.budget.budgetserver.jpa.ExpenseType
 import org.budget.budgetserver.repository.CategoryRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.cache.annotation.CachePut
+import org.springframework.cache.annotation.Cacheable
+import org.springframework.cache.annotation.Caching
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
@@ -15,6 +18,8 @@ class CategoryServiceInternal {
 
     @Autowired
     private lateinit var categoryRepository: CategoryRepository
+
+    val updateCategory = UpdateCache()
 
     fun createCategoryEntity(
         groupId: Int,
@@ -29,6 +34,8 @@ class CategoryServiceInternal {
         if (isExist)
             throw CategoryAlreadyExistsException()
 
+        updateCategory.needAnUpdate()
+
         return categoryRepository.save(
             CategoryEntity(
                 name = name,
@@ -39,6 +46,10 @@ class CategoryServiceInternal {
         )
     }
 
+    @Caching(
+        put = [CachePut(value = ["categories"], condition = "#root.target.updateCategory.isUpdate()")],
+        cacheable = [Cacheable(value = ["categories"])],
+    )
     fun getAllCategories(type: ExpenseType?, groupId: Int): List<CategoryEntity> =
         if (type == null) categoryRepository.findByGroupId(groupId)
         else categoryRepository.findByGroupIdAndType(groupId, type)

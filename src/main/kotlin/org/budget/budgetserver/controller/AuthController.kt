@@ -1,5 +1,6 @@
 package org.budget.budgetserver.controller
 
+import org.budget.budgetserver.jpa.UserEntity
 import org.budget.budgetserver.service.internal.AccessRefreshTokens
 import org.budget.budgetserver.service.AuthService
 import org.springframework.beans.factory.annotation.Autowired
@@ -33,7 +34,7 @@ class AuthController {
         authService.accountConfirmation(email, token)
 
     @GetMapping("/resetPassword")
-    fun resetPassword(@RequestParam email: String) = authService.resetPassword(email)
+    fun resetPassword(@RequestParam email: String): UserEntity = authService.resetPassword(email)
 
     @GetMapping("/confirmResetPassword")
     fun confirmResetPassword(@RequestParam email: String, @RequestParam token: Int): String =

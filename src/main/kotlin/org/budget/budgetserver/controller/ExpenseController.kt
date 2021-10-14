@@ -7,6 +7,7 @@ import org.budget.budgetserver.service.ExpenseService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Sort
 import org.springframework.web.bind.annotation.*
+import javax.persistence.Cacheable
 
 @RestController
 @RequestMapping("/expense")
@@ -23,7 +24,6 @@ class ExpenseController {
         @RequestParam price: Double,
         comment: String?,
     ): ExpenseEntity = expenseService.createExpense(categoryId, cashAccountId, date, price, comment)
-
 
     @GetMapping("/getExpenses")
     fun getExpenses(
