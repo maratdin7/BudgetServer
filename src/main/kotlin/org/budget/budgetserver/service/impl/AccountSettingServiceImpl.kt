@@ -1,5 +1,6 @@
 package org.budget.budgetserver.service.impl
 
+import org.budget.budgetserver.jpa.UserEntity
 import org.budget.budgetserver.service.internal.AccessRefreshTokens
 import org.budget.budgetserver.service.AccountSettingService
 import org.budget.budgetserver.service.internal.Service.getLoggedUserEntity
@@ -21,9 +22,10 @@ class AccountSettingServiceImpl : AccountSettingService {
     @Autowired
     private lateinit var refreshTokenService: RefreshTokenService
 
-    override fun signOut(refreshToken: String) {
+    override fun signOut(refreshToken: String): UserEntity {
         val userEntity = getLoggedUserEntity()
         refreshTokenService.deleteToken(userEntity.id, refreshToken)
+        return userEntity
     }
 
     override fun changePassword(pass: String): AccessRefreshTokens {

@@ -7,7 +7,6 @@ import org.budget.budgetserver.jpa.ExpenseEntity
 import org.budget.budgetserver.repository.ExpenseRepository
 import org.budget.budgetserver.service.impl.Filter
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.CachePut
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.cache.annotation.Caching
@@ -63,6 +62,7 @@ class ExpenseServiceInternal {
         cacheable = [Cacheable(value = ["expenses"])],
     )
     fun getExpenses(groupId: Int, filter: Filter, page: Int, pageSize: Int): List<ExpenseEntity> {
+
         val ans = expenseRepository.getExpenses(
             groupId = groupId,
             filter,
